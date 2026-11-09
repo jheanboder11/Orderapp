@@ -1,0 +1,14 @@
+# Secretos: nunca a GitHub
+.env
+.env.local
+.env*.local
+# Dependencias y compilados
+node_modules/
+.next/
+out/
+build/
+coverage/
+# Sistema
+.DS_Store
+Thumbs.db
+.vercel
