@@ -4,6 +4,7 @@ import { Aviso, Boton, Campo } from "@/components/ui";
 import { NOMBRE_ROL, pistaContrasena, rolEs } from "@/modules/auth/rules";
 import { type EstadoSimple, cambiarActivo, cambiarContrasena } from "../actions";
 import type { Persona } from "../queries";
+import { enviarSinBorrar } from "@/components/enviar";
 
 type Abierto = "nada" | "contrasena" | "desactivar";
 
@@ -62,7 +63,7 @@ export function FilaPersona({ persona, esYo }: { persona: Persona; esYo: boolean
               )}
             </>
           ) : (
-            <form action={accionActivo}>
+            <form onSubmit={enviarSinBorrar(accionActivo)}>
               <input type="hidden" name="id" value={persona.id} />
               <input type="hidden" name="activo" value="true" />
               <Boton type="submit" pequeno disabled={guardandoActivo}>
@@ -74,7 +75,7 @@ export function FilaPersona({ persona, esYo }: { persona: Persona; esYo: boolean
       </div>
 
       {abierto === "contrasena" ? (
-        <form action={accionClave} className="mt-2 rounded-2xl bg-campo p-3">
+        <form onSubmit={enviarSinBorrar(accionClave)} className="mt-2 rounded-2xl bg-campo p-3">
           <input type="hidden" name="id" value={persona.id} />
           <Campo
             etiqueta={`Nueva contraseña para ${persona.nombre}`}
@@ -99,7 +100,7 @@ export function FilaPersona({ persona, esYo }: { persona: Persona; esYo: boolean
       ) : null}
 
       {abierto === "desactivar" ? (
-        <form action={accionActivo} className="mt-2 rounded-2xl bg-campo p-3 text-sm">
+        <form onSubmit={enviarSinBorrar(accionActivo)} className="mt-2 rounded-2xl bg-campo p-3 text-sm">
           <input type="hidden" name="id" value={persona.id} />
           <input type="hidden" name="activo" value="false" />
           <p>

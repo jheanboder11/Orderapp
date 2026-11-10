@@ -3,6 +3,7 @@ import { useActionState, useState } from "react";
 import { Aviso, Boton, Campo, Selector, Tarjeta } from "@/components/ui";
 import { NOMBRE_ROL, type Rol, pistaContrasena } from "@/modules/auth/rules";
 import { type EstadoCrear, crearPersona } from "../actions";
+import { enviarSinBorrar } from "@/components/enviar";
 
 const ORDEN_ROLES: Rol[] = ["MENSAJERO", "COLABORADOR", "ADMINISTRADOR"];
 
@@ -58,7 +59,7 @@ export function FormCrear() {
 
   return (
     <Tarjeta>
-      <form action={accion} noValidate>
+      <form onSubmit={enviarSinBorrar(accion)} noValidate>
         <h2 className="mb-1 text-lg font-bold">➕ Crear un usuario</h2>
         <Campo
           etiqueta="Nombre"

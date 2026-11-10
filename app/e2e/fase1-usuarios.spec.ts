@@ -1,23 +1,9 @@
 import { type Page, expect, test } from "@playwright/test";
-
-const ADMIN = process.env.ADMIN_USUARIO ?? "";
-const ADMIN_CLAVE = process.env.ADMIN_PASSWORD ?? "";
+import { ADMIN, ADMIN_CLAVE, entrar, salir } from "./ayudas";
 
 /** Usuario único por prueba. Empieza por "e2e" para borrarlo al final (e2e/limpiar.ts). */
 function nuevoUsuario(base: string) {
   return `E2e${base}${Date.now().toString(36)}${Math.floor(Math.random() * 1000)}`;
-}
-
-async function entrar(page: Page, usuario: string, clave: string) {
-  await page.goto("/entrar");
-  await page.getByLabel("🙋 Tu usuario").fill(usuario);
-  await page.getByLabel("🔒 Tu contraseña").fill(clave);
-  await page.getByRole("button", { name: "Entrar" }).click();
-}
-
-async function salir(page: Page) {
-  await page.getByRole("button", { name: "Salir" }).click();
-  await expect(page).toHaveURL(/\/entrar$/);
 }
 
 async function crearPersona(page: Page, nombre: string, usuario: string, rol: string, clave: string) {

@@ -18,7 +18,7 @@ App web de domicilios hecha con Next.js. El plan completo está en `../PLAN-orde
 ```
 pnpm db:migrate     # crea las tablas
 pnpm db:seed        # crea el Administrador (ADMIN_USUARIO / ADMIN_PASSWORD de .env.local)
-pnpm db:seed:demo   # opcional: cuentas de prueba Ana, Teo y Luz
+pnpm db:seed:demo   # opcional: cuentas de prueba Ana, Teo y Luz + 10 pedidos de ejemplo (las pruebas e2e las necesitan)
 ```
 
 ## Ver la app

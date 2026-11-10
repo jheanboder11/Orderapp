@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Rol } from "@/modules/auth/rules";
 import { exigirRol } from "@/modules/auth/sesion";
+import { pendientesColaborador } from "@/modules/pedidos/queries";
 import { BarraModulos } from "./BarraModulos";
 import { Encabezado } from "./Encabezado";
 import { Tarjeta, TituloModulo } from "./ui";
@@ -8,10 +9,12 @@ import { Tarjeta, TituloModulo } from "./ui";
 /** Marco de cada sección: revisa el rol en el servidor, pone el encabezado y la barra de módulos. */
 export async function Marco({ rol, children }: { rol: Rol; children: ReactNode }) {
   const u = await exigirRol(rol);
+  const pendientes: Record<string, number> =
+    rol === "COLABORADOR" ? { "/colaborador/pedidos": await pendientesColaborador() } : {};
   return (
     <>
       <Encabezado nombre={u.nombre} />
-      <BarraModulos rol={rol} />
+      <BarraModulos rol={rol} pendientes={pendientes} />
       <main>{children}</main>
     </>
   );

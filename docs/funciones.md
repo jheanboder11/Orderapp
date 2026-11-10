@@ -17,11 +17,15 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Contraseña: Mensajero solo números (mínimo 6); Colaborador y Administrador mínimo 8.
 - 5 intentos fallidos = ese usuario queda bloqueado 10 minutos (el Administrador lo desbloquea al ponerle contraseña nueva).
 - 👥 Equipo (solo Administrador): crear usuarios, poner contraseña nueva, desactivar/activar cuentas (no se borran). Nadie se registra solo.
-- Crear pedido pegando el mensaje de WhatsApp (la app llena los campos).
-- Editar (solo empacado), cancelar con motivo, reasignar mensajero, copiar datos.
+- Crear pedido pegando el mensaje de WhatsApp (la app llena los campos y dice qué no encontró). El domi se calcula solo por zona.
+- El total (con domi) se pide siempre, aunque el cliente ya haya pagado, y debe ser mayor que el domi.
+- Número del pedido por día (#1, #2…). Para hoy o para mañana, con hora límite opcional.
+- Listas Hoy · Mañana · Ayer. Editar (solo empacado), cancelar con motivo (confirmación dentro de la tarjeta), cambiar mensajero, copiar para WhatsApp, "Ya recibí el paquete de vuelta" (Problema → Devuelto).
+- La lista se actualiza sola cada minuto. Numerito naranja en 📋 Pedidos = demorados + problemas.
+- Cada cambio de un pedido queda anotado (auditoría invisible).
 - Mensajero: una foto para salir con todos sus paquetes, foto al entregar, "No pude entregarlo" con motivo, botones Llamar · Mapa · WhatsApp.
 - Cierre del mensajero: efectivo − pago de domis = lo que consigna (o lo que la empresa le consigna), con foto de la consignación.
-- Alerta de pedidos demorados (120 min Medellín, 180 otras zonas).
+- Alerta de pedidos demorados (120 min Medellín, 180 otras zonas) con botón "💬 Escribirle" (abre WhatsApp con el mensaje listo).
 - Administrador: ventas del día (sin domis), domicilios, efectivo vs transferencia, cierres por mensajero, historial de 10 días con detalle y filtro de problemas.
 - Correo con el resumen de cierre.
 
@@ -37,6 +41,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Quitar los accesos de prueba antes de usarla de verdad.
 
 ## Historial de cambios
+- 2026-11-09: Fase 2 lista: pedidos del Colaborador (crear con atajo de WhatsApp, listas, editar, cancelar, reasignar, copiar, devuelto, alerta de demorados) y 10 pedidos de ejemplo.
 - 2026-11-09: Fase 1 lista: inicio de sesión real, roles, pantalla Equipo, bloqueo por intentos y cuentas de prueba (Ana, Teo, Luz).
 - 2026-11-09: Fase 0 lista: proyecto Next.js en app/ con la marca Orderapp y la pantalla de entrada (todavía sin iniciar sesión de verdad). Pruebas automáticas funcionando.
 - 2026-11-08: carpeta del proyecto lista para Claude Code + plan actualizado a roles nuevos y diseño sin marca.
