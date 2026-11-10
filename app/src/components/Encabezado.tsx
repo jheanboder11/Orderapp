@@ -1,3 +1,4 @@
+import { salir } from "@/modules/auth/actions";
 import { Logo } from "./Logo";
 
 /** Encabezado claro: logo a la izquierda y, si hay sesión, "Hola, [nombre] 👋 · Salir". */
@@ -8,10 +9,11 @@ export function Encabezado({ nombre }: { nombre?: string }) {
       {nombre ? (
         <div className="text-right">
           <p className="text-base font-bold">Hola, {nombre} 👋</p>
-          {/* El botón Salir se conecta en la Fase 1 (inicio de sesión). */}
-          <button type="button" className="text-xs text-suave underline">
-            Salir
-          </button>
+          <form action={salir}>
+            <button type="submit" className="cursor-pointer text-xs text-suave underline">
+              Salir
+            </button>
+          </form>
         </div>
       ) : null}
     </header>

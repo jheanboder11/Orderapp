@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
+import { INICIO_ROL } from "@/modules/auth/rules";
+import { usuarioActual } from "@/modules/auth/sesion";
 
-export default function Inicio() {
-  // En la Fase 1: si hay sesión, se envía a la pantalla de su rol.
-  redirect("/entrar");
+/** La raíz manda a cada persona a su pantalla, o a entrar si no tiene sesión. */
+export default async function Inicio() {
+  const u = await usuarioActual();
+  redirect(u ? INICIO_ROL[u.rol] : "/entrar");
 }

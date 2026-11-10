@@ -13,6 +13,14 @@ App web de domicilios hecha con Next.js. El plan completo está en `../PLAN-orde
 3. Copia el archivo `.env.example` y renombra la copia a `.env.local`. Ahí van las "llaves" secretas
    (por ejemplo la dirección de la base de datos). **Ese archivo nunca se sube a GitHub.**
 
+## Preparar la base de datos (una sola vez)
+
+```
+pnpm db:migrate     # crea las tablas
+pnpm db:seed        # crea el Administrador (ADMIN_USUARIO / ADMIN_PASSWORD de .env.local)
+pnpm db:seed:demo   # opcional: cuentas de prueba Ana, Teo y Luz
+```
+
 ## Ver la app
 
 ```

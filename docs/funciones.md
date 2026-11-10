@@ -13,7 +13,10 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 | **Mensajero** | Entrega | 🏍️ Entregas · 🧾 Cierre · ✅ Hechos |
 
 ## Funciones activas
-- Entrar con usuario + PIN/contraseña. Solo el Administrador crea usuarios.
+- Entrar con usuario + contraseña (no importan mayúsculas ni tildes). La sesión dura 30 días en el celular.
+- Contraseña: Mensajero solo números (mínimo 6); Colaborador y Administrador mínimo 8.
+- 5 intentos fallidos = ese usuario queda bloqueado 10 minutos (el Administrador lo desbloquea al ponerle contraseña nueva).
+- 👥 Equipo (solo Administrador): crear usuarios, poner contraseña nueva, desactivar/activar cuentas (no se borran). Nadie se registra solo.
 - Crear pedido pegando el mensaje de WhatsApp (la app llena los campos).
 - Editar (solo empacado), cancelar con motivo, reasignar mensajero, copiar datos.
 - Mensajero: una foto para salir con todos sus paquetes, foto al entregar, "No pude entregarlo" con motivo, botones Llamar · Mapa · WhatsApp.
@@ -34,6 +37,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Quitar los accesos de prueba antes de usarla de verdad.
 
 ## Historial de cambios
+- 2026-11-09: Fase 1 lista: inicio de sesión real, roles, pantalla Equipo, bloqueo por intentos y cuentas de prueba (Ana, Teo, Luz).
 - 2026-11-09: Fase 0 lista: proyecto Next.js en app/ con la marca Orderapp y la pantalla de entrada (todavía sin iniciar sesión de verdad). Pruebas automáticas funcionando.
 - 2026-11-08: carpeta del proyecto lista para Claude Code + plan actualizado a roles nuevos y diseño sin marca.
 - 2026-11-05: roles nuevos (Administrador = jefe, Colaborador, Mensajero). "En calle" → "En proceso".
