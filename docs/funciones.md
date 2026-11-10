@@ -34,6 +34,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Quitar los accesos de prueba antes de usarla de verdad.
 
 ## Historial de cambios
+- 2026-11-09: Fase 0 lista: proyecto Next.js en app/ con la marca Orderapp y la pantalla de entrada (todavía sin iniciar sesión de verdad). Pruebas automáticas funcionando.
 - 2026-11-08: carpeta del proyecto lista para Claude Code + plan actualizado a roles nuevos y diseño sin marca.
 - 2026-11-05: roles nuevos (Administrador = jefe, Colaborador, Mensajero). "En calle" → "En proceso".
 - 2026-11-04: Historial de 10 días unificado con detalle por día y por pedido.

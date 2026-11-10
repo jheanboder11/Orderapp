@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* Orderapp: tinta + naranja ruta. Solo modo claro por ahora. */
+@theme {
+  --color-tinta: #1c1a36;
+  --color-naranja: #ff7a45;
+  --color-naranja-sombra: #e2581f;
+  --color-fondo: #f5f5f9;
+  --color-tarjeta: #ffffff;
+  --color-campo: #f0f0f6;
+  --color-linea: #e5e4ee;
+  --color-suave: #6b6a80;
+  --color-exito: #16996a;
+  --color-ambar: #c76a12;
+  --color-problema: #d43c4b;
+
+  --font-sans: var(--font-jakarta), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius-tarjeta: 20px;
+  --radius-boton: 14px;
+  --shadow-suave: 0 2px 12px rgba(28, 26, 54, 0.06);
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-fondo);
+  color: var(--color-tinta);
+  font-size: 16px;
+  line-height: 1.5;
+}
