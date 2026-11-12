@@ -16,8 +16,8 @@
 ## Cómo construir
 - **Empezar simple.** Primero las funciones esenciales; lo demás se desactiva o se aplaza.
 - **Probar con un piloto antes de escalar** y medir con datos reales. Durante el piloto no se agregan funciones.
-- Herramientas gratis o baratas que él pueda mantener. Versión actual: Next.js + PostgreSQL (Neon) en Vercel, código en GitHub.
-- Seguridad básica y fácil: PIN por persona validado en el servidor, no solo en la pantalla.
+- Herramientas gratis o baratas que él pueda mantener. Si el plan gratis sirve, el gratis. Si una herramienta paga es necesaria para el objetivo, se paga, pero se le dice el costo antes. Versión actual: Next.js + PostgreSQL (Neon) en Vercel, código en GitHub.
+- Seguridad básica y fácil: usuario + contraseña por persona, validados en el servidor, no solo en la pantalla.
 - El código debe quedar probado antes de entregarlo y venir con pasos de instalación que un no programador pueda seguir.
 - Pensar en el usuario final: nada tedioso, que le ahorre clics y le sea útil (si no, no lo usan).
 
@@ -35,6 +35,8 @@
 - Nombres de roles (Administrador = jefe, Colaborador = logística, Mensajero) en lugar de nombres de personas.
 
 ## Cómo trabajar con él
+- Hacer exactamente lo que pide, sin extras. Al terminar, reportar solo novedades (hecho / problema / duda) en 2-5 líneas. Dudas solo si bloquean; si no, decidir y mencionarlo en una línea.
+- La carpeta Orderapp es "la casa" de Claude: puede ordenar, crear y mejorar documentos sin pedir permiso, con prudencia. Lo irreversible se confirma antes.
 - Presentar 2 opciones cuando es decisión de diseño o producto, y dejarlo elegir.
 - Pedirle ejemplos reales (capturas, formatos que ya usa) para copiar lo que ya funciona en vez de inventar.
 - Todo lo del proyecto se guarda en la carpeta Orderapp.

@@ -12,3 +12,6 @@ coverage/
 .DS_Store
 Thumbs.db
 .vercel
+deshacer_capturas.csv
+# TEMPORAL: hasta que el repo sea privado
+contexto-jhean.md

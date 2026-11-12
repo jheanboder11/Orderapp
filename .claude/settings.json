@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git pull --ff-only --quiet 2>&1 || echo 'AVISO: no se pudo traer lo ultimo de GitHub (revisa cambios sin subir o conexion).'"
+          }
+        ]
+      }
+    ]
+  }
+}
