@@ -43,6 +43,7 @@ Se deja para después de la reunión: correos, Ajustes, auditoría visible, CSV,
 - Fecha del piloto y quiénes participan (1 Colaborador + 1 Mensajero).
 
 ## Bitácora
+- 2026-11-13: ▶️ SIGUIENTE: Jhean prueba la Fase 2 en el PC 1 y trae su lista de ajustes. Luego: corregir esos ajustes y arrancar la **Fase 3 recortada** (ver "Meta de esta semana"). Antes de la Fase 3, pedirle la llave de Vercel Blob para las fotos.
 - 2026-11-13: PC 2 listo para correr la app (pnpm + llave de Neon en `app/.env.local`). La base ya tenía usuarios y pedidos de prueba. Jhean empieza a revisar la Fase 2.
 - 2026-11-12: ⚠️ PENDIENTE: el repo sigue PÚBLICO. contexto-jhean.md NO se ha subido (está solo en el PC 1). Cuando Jhean lo ponga privado: quitarlo de .gitignore y subirlo. Siguiente paso: Jhean da acceso a Neon (DATABASE_URL en app/.env.local) y se arranca la demo.
 - 2026-11-12: Configurado para varios PCs: el contexto de Jhean ahora va en GitHub, `git pull` automático al abrir Claude Code y regla de subir cambios al terminar. Meta de la semana: demo para el jefe (fases 3, 4 y 5 recortadas + publicar).
