@@ -33,7 +33,7 @@ Se deja para después de la reunión: correos, Ajustes, auditoría visible, CSV,
 
 ## Riesgos
 - **Construir de más sin saber si el jefe paga.** Ver recomendación de arriba.
-- **Este PC no puede correr la app todavía:** falta `.env.local` (llave de la base de datos Neon) y falta instalar `pnpm`. Se arregla en 5 minutos cuando haga falta.
+- **PC 2 ya corre la app** (2026-11-13): pnpm instalado y `.env.local` con la llave de Neon. En cada PC nuevo hay que repetir esos 2 pasos.
 - **Accesos de prueba** (Leo, Ana, Teo, Luz): hay que apagarlos (`MOSTRAR_ACCESOS_PRUEBA=false`) y borrar esas cuentas antes del uso real.
 - **Mensajero sin señal:** si pasa seguido en el piloto, la foto puede fallar. Medirlo antes de construir un "modo sin señal".
 
@@ -43,6 +43,7 @@ Se deja para después de la reunión: correos, Ajustes, auditoría visible, CSV,
 - Fecha del piloto y quiénes participan (1 Colaborador + 1 Mensajero).
 
 ## Bitácora
+- 2026-11-13: PC 2 listo para correr la app (pnpm + llave de Neon en `app/.env.local`). La base ya tenía usuarios y pedidos de prueba. Jhean empieza a revisar la Fase 2.
 - 2026-11-12: ⚠️ PENDIENTE: el repo sigue PÚBLICO. contexto-jhean.md NO se ha subido (está solo en el PC 1). Cuando Jhean lo ponga privado: quitarlo de .gitignore y subirlo. Siguiente paso: Jhean da acceso a Neon (DATABASE_URL en app/.env.local) y se arranca la demo.
 - 2026-11-12: Configurado para varios PCs: el contexto de Jhean ahora va en GitHub, `git pull` automático al abrir Claude Code y regla de subir cambios al terminar. Meta de la semana: demo para el jefe (fases 3, 4 y 5 recortadas + publicar).
 - 2026-11-12: Carpeta conectada a GitHub. Documentos ordenados: versión vieja (Apps Script) al archivo, análisis del piloto adaptado a la app nueva, contexto personal fuera de GitHub (`CLAUDE.local.md`). Se crea esta bitácora.
