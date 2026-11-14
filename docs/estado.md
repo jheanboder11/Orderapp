@@ -43,6 +43,7 @@ Se deja para después de la reunión: correos, Ajustes, auditoría visible, CSV,
 - Fecha del piloto y quiénes participan (1 Colaborador + 1 Mensajero).
 
 ## Bitácora
+- 2026-11-14 (cierre de sesión, PC 1): ▶️ PARA RETOMAR EN OTRO PC: 1) en `app/` correr `pnpm install` (se agregó la librería de fotos `@vercel/blob`); 2) preguntarle a Jhean cómo le fue probando la Fase 3 (aún no lo ha contado) y corregir lo que diga; 3) seguir con la Fase 4 (cierre). Ojo: las fotos de prueba de este PC quedaron en `app/.fotos-locales/` y NO viajan por GitHub; en el otro PC esas fotos saldrán como "No encontré la foto" (normal, no es un error).
 - 2026-11-14: ✅ Fase 3 construida y probada (18 pruebas de punta a punta en verde). Fotos: sin la llave de Blob se guardan en el PC (`app/.fotos-locales/`); la llave no quedó pegada en `.env.local`, se pondrá sola al conectar el Blob al proyecto en Vercel. ▶️ SIGUIENTE: Jhean prueba la Fase 3 como Teo → Fase 4 (cierre) → Fase 5 mínima (💰 Hoy) → publicar en Vercel → recargar datos de ejemplo (las pruebas movieron algunos pedidos de Teo y Luz).
 - 2026-11-13: ▶️ SIGUIENTE: Jhean prueba la Fase 2 en el PC 1 y trae su lista de ajustes. Luego: corregir esos ajustes y arrancar la **Fase 3 recortada** (ver "Meta de esta semana"). Antes de la Fase 3, pedirle la llave de Vercel Blob para las fotos.
 - 2026-11-13: PC 2 listo para correr la app (pnpm + llave de Neon en `app/.env.local`). La base ya tenía usuarios y pedidos de prueba. Jhean empieza a revisar la Fase 2.
