@@ -13,6 +13,7 @@ import {
   puedeReasignar,
   textoParaWhatsApp,
 } from "../rules";
+import { linkFotoPedido } from "@/modules/fotos/rules";
 import { ChipEstado } from "./piezas";
 import { enviarSinBorrar } from "@/components/enviar";
 
@@ -141,12 +142,12 @@ export function TarjetaPedido({
       {p.fotoSalidaUrl || p.fotoEntregaUrl ? (
         <div className="mt-2 flex flex-wrap gap-2.5 text-sm">
           {p.fotoSalidaUrl ? (
-            <a href={p.fotoSalidaUrl} target="_blank" rel="noopener noreferrer" className="font-semibold">
+            <a href={linkFotoPedido(p.id, "salida")} target="_blank" rel="noopener noreferrer" className="font-semibold">
               📸 Foto al salir
             </a>
           ) : null}
           {p.fotoEntregaUrl ? (
-            <a href={p.fotoEntregaUrl} target="_blank" rel="noopener noreferrer" className="font-semibold">
+            <a href={linkFotoPedido(p.id, "entrega")} target="_blank" rel="noopener noreferrer" className="font-semibold">
               📸 Foto al entregar
             </a>
           ) : null}

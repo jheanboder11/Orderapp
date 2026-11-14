@@ -7,9 +7,9 @@
 |---|---|
 | 0. Base | ✅ Lista |
 | 1. Inicio de sesión y Equipo | ✅ Lista |
-| 2. Pedidos del Colaborador | ✅ Lista (falta revisión de Jhean) |
-| 3. Mensajero + fotos | ⏳ Sigue |
-| 4. Cierres | — |
+| 2. Pedidos del Colaborador | ✅ Lista |
+| 3. Mensajero + fotos | ✅ Lista (falta revisión de Jhean) |
+| 4. Cierres | ⏳ Sigue |
 | 5. Panel del Administrador | — |
 | 6. Correos y Ajustes | — |
 | 7. Auditoría y métricas | — |
@@ -43,6 +43,7 @@ Se deja para después de la reunión: correos, Ajustes, auditoría visible, CSV,
 - Fecha del piloto y quiénes participan (1 Colaborador + 1 Mensajero).
 
 ## Bitácora
+- 2026-11-14: ✅ Fase 3 construida y probada (18 pruebas de punta a punta en verde). Fotos: sin la llave de Blob se guardan en el PC (`app/.fotos-locales/`); la llave no quedó pegada en `.env.local`, se pondrá sola al conectar el Blob al proyecto en Vercel. ▶️ SIGUIENTE: Jhean prueba la Fase 3 como Teo → Fase 4 (cierre) → Fase 5 mínima (💰 Hoy) → publicar en Vercel → recargar datos de ejemplo (las pruebas movieron algunos pedidos de Teo y Luz).
 - 2026-11-13: ▶️ SIGUIENTE: Jhean prueba la Fase 2 en el PC 1 y trae su lista de ajustes. Luego: corregir esos ajustes y arrancar la **Fase 3 recortada** (ver "Meta de esta semana"). Antes de la Fase 3, pedirle la llave de Vercel Blob para las fotos.
 - 2026-11-13: PC 2 listo para correr la app (pnpm + llave de Neon en `app/.env.local`). La base ya tenía usuarios y pedidos de prueba. Jhean empieza a revisar la Fase 2.
 - 2026-11-12: ⚠️ PENDIENTE: el repo sigue PÚBLICO. contexto-jhean.md NO se ha subido (está solo en el PC 1). Cuando Jhean lo ponga privado: quitarlo de .gitignore y subirlo. Siguiente paso: Jhean da acceso a Neon (DATABASE_URL en app/.env.local) y se arranca la demo.

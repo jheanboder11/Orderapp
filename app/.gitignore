@@ -47,3 +47,6 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# fotos guardadas en el computador mientras no hay llave de Vercel Blob
+/.fotos-locales/

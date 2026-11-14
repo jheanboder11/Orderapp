@@ -1,15 +1,14 @@
 "use server";
 import { and, eq, max } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { db } from "@/db";
+import { ErrorClaro, YA_CAMBIO, fallo } from "@/lib/errores";
 import { fechaBogota } from "@/lib/formato";
 import { users } from "@/modules/auth/schema";
-import { SinPermiso, type UsuarioActual, permitirSolo } from "@/modules/auth/sesion";
+import { permitirSolo } from "@/modules/auth/sesion";
+import { cambiarEstado, refrescarPantallas } from "./cambios";
 import { bloqueoNumeroDelDia } from "./queries";
 import {
-  type Estado,
-  errorTransicion,
   errorValor,
   esquemaPedido,
   fechaEntregaEditada,
@@ -25,17 +24,7 @@ export type EstadoAccion =
   | { ok: false; error: string; campos?: Record<string, string> }
   | null;
 
-const YA_CAMBIO = "Este pedido ya cambió. Actualiza la pantalla.";
-
-class ErrorClaro extends Error {}
-
-function fallo(e: unknown): { ok: false; error: string } {
-  if (e instanceof SinPermiso || e instanceof ErrorClaro) return { ok: false, error: e.message };
-  console.error(e);
-  return { ok: false, error: "Algo salió mal. Intenta otra vez en un momento." };
-}
-
-const refrescar = () => revalidatePath("/colaborador", "layout");
+const refrescar = refrescarPantallas;
 
 const CAMPOS = [
   "cliente",
@@ -183,39 +172,6 @@ export async function editarPedido(id: number, _prev: EstadoAccion, form: FormDa
 }
 
 const esquemaId = z.coerce.number().int().positive();
-
-/** Cambia el estado revisando la regla de estados, dentro de una transacción con bloqueo. */
-async function cambiarEstado(
-  yo: UsuarioActual,
-  id: number,
-  a: Estado,
-  extra: Partial<typeof pedidos.$inferInsert>,
-  tipo: string,
-  detalle?: Record<string, unknown>,
-) {
-  await db.transaction(async (tx) => {
-    const [p] = await tx
-      .select({ estado: pedidos.estado })
-      .from(pedidos)
-      .where(eq(pedidos.id, id))
-      .for("update");
-    if (!p) throw new ErrorClaro("No encontré el pedido. Actualiza la pantalla.");
-    const error = errorTransicion(p.estado, a, yo.rol);
-    if (error) throw new ErrorClaro(error);
-    await tx
-      .update(pedidos)
-      .set({ ...extra, estado: a, actualizadoEn: new Date() })
-      .where(eq(pedidos.id, id));
-    await tx.insert(pedidoEventos).values({
-      pedidoId: id,
-      tipo,
-      estadoAntes: p.estado,
-      estadoDespues: a,
-      usuarioId: yo.id,
-      detalle: detalle ?? null,
-    });
-  });
-}
 
 /** 🚫 Cancelar con motivo obligatorio. */
 export async function cancelarPedido(_prev: EstadoAccion, form: FormData): Promise<EstadoAccion> {

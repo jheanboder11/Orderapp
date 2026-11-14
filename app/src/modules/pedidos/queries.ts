@@ -31,7 +31,7 @@ export async function siguienteNumero(hoy: string) {
   return (r?.n ?? 0) + 1;
 }
 
-const columnasTarjeta = {
+export const columnasTarjeta = {
   id: pedidos.id,
   numeroDia: pedidos.numeroDia,
   fechaCreacion: pedidos.fechaCreacion,
@@ -53,6 +53,8 @@ const columnasTarjeta = {
   fotoEntregaUrl: pedidos.fotoEntregaUrl,
   horaSalida: pedidos.horaSalida,
   horaEntrega: pedidos.horaEntrega,
+  horaCancelado: pedidos.horaCancelado,
+  cierreId: pedidos.cierreId,
   mensajeroId: pedidos.mensajeroId,
   mensajero: users.name,
   zona: zonas.nombre,

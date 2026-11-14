@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
 import type { Rol } from "@/modules/auth/rules";
 import { exigirRol } from "@/modules/auth/sesion";
+import { pendientesMensajero } from "@/modules/entregas/queries";
 import { pendientesColaborador } from "@/modules/pedidos/queries";
+import { Avisos } from "./Avisos";
 import { BarraModulos } from "./BarraModulos";
 import { Encabezado } from "./Encabezado";
 import { Tarjeta, TituloModulo } from "./ui";
@@ -10,12 +12,17 @@ import { Tarjeta, TituloModulo } from "./ui";
 export async function Marco({ rol, children }: { rol: Rol; children: ReactNode }) {
   const u = await exigirRol(rol);
   const pendientes: Record<string, number> =
-    rol === "COLABORADOR" ? { "/colaborador/pedidos": await pendientesColaborador() } : {};
+    rol === "COLABORADOR"
+      ? { "/colaborador/pedidos": await pendientesColaborador() }
+      : rol === "MENSAJERO"
+        ? { "/mensajero/entregas": await pendientesMensajero(u.id) }
+        : {};
   return (
     <>
       <Encabezado nombre={u.nombre} />
       <BarraModulos rol={rol} pendientes={pendientes} />
       <main>{children}</main>
+      <Avisos />
     </>
   );
 }
