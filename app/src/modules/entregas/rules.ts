@@ -19,7 +19,7 @@ export type PedidoMensajero = {
  * - enCamino: ya salió con ellos (🏍️ Entrégalos ahora).
  * - porRecoger: empacados que ya pueden salir (📦 Recógelos en el local).
  * - regresar: con problema, o cancelados hoy cuando ya estaban en la calle (↩️ Regrésalos al local).
- * - entregados: entregados hoy o que todavía no entran en un cierre (✅ Hechos).
+ * - entregados: entregados hoy o que todavía no entran en un cierre (✅ Entregados).
  * - manana: empacados para un día que no ha llegado (🗓️ Para mañana).
  */
 export function repartir<T extends PedidoMensajero>(lista: T[], hoy: string) {
@@ -69,9 +69,9 @@ export function textoCobro(formaPago: FormaPago, valorTotal: number): string {
 
 /** Versión corta para las listas. */
 export function cobroCorto(formaPago: FormaPago, valorTotal: number): string {
-  if (formaPago === "EFECTIVO") return `💵 ${pesos(valorTotal)}`;
-  if (formaPago === "TRANSFERENCIA") return "📲 Transferencia";
-  return "🙌 Ya pagado";
+  if (formaPago === "EFECTIVO") return `💵 Efectivo ${pesos(valorTotal)}`;
+  if (formaPago === "TRANSFERENCIA") return `📲 Transferencia ${pesos(valorTotal)}`;
+  return "🙌 Pago anticipado";
 }
 
 /** "Cra 70 #45-20, Laureles" → "Laureles" (lo que va después de la última coma). */

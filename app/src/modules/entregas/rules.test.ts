@@ -104,8 +104,9 @@ describe("textos de cobro", () => {
     expect(textoCobro("EFECTIVO", 172000)).toBe("💵 Te toca cobrar en efectivo: $ 172.000");
     expect(textoCobro("TRANSFERENCIA", 149000)).toBe("📲 Ya pagó por transferencia. No cobres nada.");
     expect(textoCobro("YA_PAGADO", 160000)).toBe("🙌 Ya está pago. No cobres nada.");
-    expect(cobroCorto("EFECTIVO", 192000)).toBe("💵 $ 192.000");
-    expect(cobroCorto("TRANSFERENCIA", 1)).toBe("📲 Transferencia");
+    expect(cobroCorto("EFECTIVO", 192000)).toBe("💵 Efectivo $ 192.000");
+    expect(cobroCorto("TRANSFERENCIA", 149000)).toBe("📲 Transferencia $ 149.000");
+    expect(cobroCorto("YA_PAGADO", 160000)).toBe("🙌 Pago anticipado");
   });
 });
 

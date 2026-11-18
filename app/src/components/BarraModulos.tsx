@@ -20,7 +20,7 @@ const MODULOS: Record<Rol, Modulo[]> = {
   MENSAJERO: [
     { href: "/mensajero/entregas", emoji: "🏍️", texto: "Entregas" },
     { href: "/mensajero/cierre", emoji: "🧾", texto: "Cierre" },
-    { href: "/mensajero/hechos", emoji: "✅", texto: "Hechos" },
+    { href: "/mensajero/hechos", emoji: "✅", texto: "Entregados" },
   ],
 };
 

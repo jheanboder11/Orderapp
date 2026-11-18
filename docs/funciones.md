@@ -10,7 +10,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 |---|---|---|
 | **Administrador** | El jefe | 💰 Hoy · 🧾 Cierres · 🗂️ Historial (10 días) · 👥 Equipo (crea usuarios) |
 | **Colaborador** | Logística: vende, empaca y despacha | 📋 Pedidos (Hoy · Mañana · Ayer) · ➕ Nuevo |
-| **Mensajero** | Entrega | 🏍️ Entregas · 🧾 Cierre · ✅ Hechos |
+| **Mensajero** | Entrega | 🏍️ Entregas · 🧾 Cierre · ✅ Entregados |
 
 ## Funciones activas
 - Entrar con usuario + contraseña (no importan mayúsculas ni tildes). La sesión dura 30 días en el celular.
@@ -41,6 +41,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Quitar los accesos de prueba antes de usarla de verdad.
 
 ## Historial de cambios
+- 2026-11-17: Mensajero: "Hechos" ahora se llama "✅ Entregados". El pago dice "Efectivo $…", "Transferencia $…" o "Pago anticipado". Al tocar un pedido entregado se abre su detalle (dirección, celular, qué llevó, pago, domi, horas, nota y fotos).
 - 2026-11-14: Fase 3 lista: pantalla del Mensajero (En camino · Por recoger · Entregados; Entrégalos ahora; Recógelos en el local con UNA foto para salir; Regrésalos al local; Hechos y Para mañana), foto al entregar, "No pude entregarlo" con motivo, Llamar · Mapa · WhatsApp. Fotos achicadas en el celular y guardadas como privadas (solo se ven con sesión; el Mensajero solo ve las suyas).
 - 2026-11-09: Fase 2 lista: pedidos del Colaborador (crear con atajo de WhatsApp, listas, editar, cancelar, reasignar, copiar, devuelto, alerta de demorados) y 10 pedidos de ejemplo.
 - 2026-11-09: Fase 1 lista: inicio de sesión real, roles, pantalla Equipo, bloqueo por intentos y cuentas de prueba (Ana, Teo, Luz).

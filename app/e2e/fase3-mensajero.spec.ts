@@ -116,8 +116,8 @@ test("crear pedido → salir con una foto → entregar con foto", async ({ page 
   expect(foto.status()).toBe(200);
   expect(foto.headers()["content-type"]).toBe("image/jpeg");
 
-  // ✅ Hechos muestra la entrega y lo de mañana
-  await page.getByRole("link", { name: /Hechos/ }).click();
+  // ✅ Entregados muestra la entrega y lo de mañana
+  await page.getByRole("link", { name: /Entregados/ }).click();
   await expect(page.getByText(uno)).toBeVisible();
   await expect(page.getByText(manana)).toBeVisible();
 
