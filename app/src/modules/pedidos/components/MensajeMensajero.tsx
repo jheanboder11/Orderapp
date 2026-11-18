@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { avisar } from "@/components/Avisos";
+import { linkWhatsApp } from "@/modules/entregas/rules";
 import { aHora24, deHora24, horaCorta, moverHora, type Partes } from "@/lib/formato";
 import { textoParaMensajero } from "../rules";
 import { Rueda } from "./HoraLimite";
@@ -14,10 +15,12 @@ const claseBoton =
  */
 export function MensajeMensajero({
   nombre,
+  celular,
   cantidad,
   dia,
 }: {
   nombre: string;
+  celular: string | null;
   cantidad: number;
   dia: "hoy" | "mañana";
 }) {
@@ -75,12 +78,12 @@ export function MensajeMensajero({
                 📋 Copiar
               </button>
               <a
-                href={`https://wa.me/?text=${encodeURIComponent(texto)}`}
+                href={`${celular ? linkWhatsApp(celular) : "https://wa.me/"}?text=${encodeURIComponent(texto)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${claseBoton} border-exito bg-exito text-white`}
               >
-                💬 Abrir WhatsApp
+                💬 {celular ? `WhatsApp a ${nombre}` : "Abrir WhatsApp"}
               </a>
             </div>
           </>

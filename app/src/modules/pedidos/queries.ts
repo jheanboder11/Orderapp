@@ -16,7 +16,7 @@ export async function listarZonas() {
 
 export async function mensajerosActivos() {
   return db
-    .select({ id: users.id, nombre: users.name })
+    .select({ id: users.id, nombre: users.name, celular: users.celular })
     .from(users)
     .where(and(eq(users.rol, "MENSAJERO"), eq(users.activo, true)))
     .orderBy(asc(users.name));

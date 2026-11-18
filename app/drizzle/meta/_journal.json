@@ -15,6 +15,13 @@
       "when": 1794283755225,
       "tag": "0001_pedidos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794979901676,
+      "tag": "0002_celular_usuarios",
+      "breakpoints": true
     }
   ]
 }

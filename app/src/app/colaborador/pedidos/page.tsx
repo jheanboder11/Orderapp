@@ -101,6 +101,7 @@ export default async function Pedidos({ searchParams }: { searchParams: Promise<
         <MensajeMensajero
           key={elegido}
           nombre={porMensajero.get(elegido)?.nombre ?? ""}
+          celular={mensajeros.find((x) => x.id === elegido)?.celular ?? null}
           cantidad={lista.filter((p) => p.estado === "EMPACADO").length}
           dia={filtro === "hoy" ? "hoy" : "mañana"}
         />

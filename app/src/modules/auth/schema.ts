@@ -18,6 +18,8 @@ export const users = pgTable("users", {
   displayUsername: text("usuario_visible"),
   rol: rolEnum("rol").notNull(),
   activo: boolean("activo").notNull().default(true),
+  /** Celular (opcional). Con él, "Abrir WhatsApp" abre directo el chat de la persona. */
+  celular: text("celular"),
   // Better Auth exige un correo. No se usa: se guarda uno interno (usuario@orderapp.local).
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verificado").notNull().default(false),

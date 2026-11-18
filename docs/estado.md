@@ -43,6 +43,7 @@ Se deja para después de la reunión: correos, Ajustes, auditoría visible, CSV,
 - Fecha del piloto y quiénes participan (1 Colaborador + 1 Mensajero).
 
 ## Bitácora
+- 2026-11-18: Nueva columna `celular` en usuarios (migración 0002, ya aplicada en Neon). A Teo se le puso el celular que dio Jhean (guardado solo en la base, no en GitHub porque el repo es público). Pendiente: poner/cambiar el celular desde 👥 Equipo.
 - 2026-11-18: Mensaje personalizado para cada mensajero (copiar / abrir WhatsApp). Los mensajeros no tienen celular en la app: WhatsApp abre el mensaje y el colaborador escoge el contacto. Se crearon 2 pedidos de prueba para Teo ("Prueba Mensaje 1 y 2").
 - 2026-11-17: Hora límite del pedido: Sin afán / Con hora con flechas ▲▼ (hora, minutos de 5 en 5, a. m./p. m.). Jhean no quiso la lista de horas. Ojo: con la app abierta en pnpm dev, las pruebas de punta a punta pueden fallar por lentitud; corridas solas pasan.
 - 2026-11-17: 🐞 La app se dañó ("Cannot find module") porque las pruebas de punta a punta reconstruían en la misma carpeta `.next` que usa `pnpm dev`. Arreglado: las pruebas ahora construyen en `.next-pruebas`. Si vuelve a pasar: parar la app, borrar `app/.next` y correr `pnpm dev`.
