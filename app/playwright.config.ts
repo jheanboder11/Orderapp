@@ -29,6 +29,6 @@ export default defineConfig({
     url: `http://localhost:${PUERTO}/entrar`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
-    env: { BETTER_AUTH_URL: `http://localhost:${PUERTO}` },
+    env: { BETTER_AUTH_URL: `http://localhost:${PUERTO}`, NEXT_DIST_DIR: ".next-pruebas" },
   },
 });
