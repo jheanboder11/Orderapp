@@ -16,7 +16,9 @@ export default async function Entregados() {
       {entregados.length ? (
         <Tarjeta>
           <h2 className="mb-1 font-extrabold">Pedidos ({entregados.length})</h2>
-          <p className="mb-1 text-[13px] text-suave">Toca un pedido para ver su detalle.</p>
+          <p className="mb-1 text-[13px] text-suave">
+            Toca un pedido para ver su detalle.
+          </p>
           <ul>
             {entregados.map((p) => (
               <FilaEntregado key={p.id} p={p} />
@@ -34,7 +36,9 @@ export default async function Entregados() {
 
       {manana.length ? (
         <Tarjeta>
-          <h2 className="mb-1 font-extrabold">🗓️ Para mañana ({manana.length})</h2>
+          <h2 className="mb-1 font-extrabold">
+            🗓️ Para mañana ({manana.length})
+          </h2>
           <ul>
             {manana.map((p) => (
               <FilaMini

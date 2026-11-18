@@ -76,5 +76,7 @@ describe("bloqueo", () => {
     const ahora = new Date("2026-11-09T10:00:00Z");
     expect(minutosRestantes(new Date("2026-11-09T10:09:30Z"), ahora)).toBe(10);
     expect(minutosRestantes(new Date("2026-11-09T10:00:10Z"), ahora)).toBe(1);
+    // Relojes desfasados unos segundos: no pasa de 10
+    expect(minutosRestantes(new Date("2026-11-09T10:10:03Z"), ahora)).toBe(10);
   });
 });

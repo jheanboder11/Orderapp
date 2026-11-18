@@ -25,7 +25,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - 🚨 Alerta (Colaborador): pedidos con problema y demorados en un solo lugar. Numerito naranja en 🚨 Alerta y franja roja "🚨 N domicilios necesitan ayuda · Ver →" en los demás módulos.
 - Cada cambio de un pedido queda anotado (auditoría invisible).
 - Mensajero: una foto para salir con todos sus paquetes, foto al entregar, "No pude entregarlo" con motivo, botones Llamar · Mapa · WhatsApp.
-- Cierre del mensajero: efectivo − pago de domis = lo que consigna (o lo que la empresa le consigna), con foto de la consignación.
+- 🧾 Cierre del mensajero: junta todas sus entregas sin cierre (de cualquier día). Efectivo − sus domis = lo que consigna ("Te toca consignar"), lo que la empresa le consigna, o "a paz y salvo". Si debe consignar, un solo botón toma la foto del comprobante y cierra. Si no, pide confirmar con un segundo toque. Se bloquea mientras tenga pedidos de hoy o de antes sin terminar (los de mañana no bloquean). Puede hacer varios cierres en el día. Ve sus cierres de hoy con la foto.
 - Alerta de pedidos demorados (120 min Medellín, 180 otras zonas) con botón "💬 Escribirle" (abre WhatsApp con el mensaje listo).
 - Administrador: ventas del día (sin domis), domicilios, efectivo vs transferencia, cierres por mensajero, historial de 10 días con detalle y filtro de problemas.
 - Correo con el resumen de cierre.
@@ -42,6 +42,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Quitar los accesos de prueba antes de usarla de verdad.
 
 ## Historial de cambios
+- 2026-11-18: Fase 4 lista (versión demo): cierre del Mensajero con cálculo, bloqueos, foto de la consignación y cierres del día. Sin correo todavía. En 🏍️ Entregas, "Hacer mi cierre" solo sale si hay algo por cerrar.
 - 2026-11-18: Los usuarios tienen celular (opcional). Si el mensajero tiene celular, el botón "💬 WhatsApp a (nombre)" abre directo su chat con el mensaje listo. Por ahora solo Teo tiene celular. Todavía no se puede cambiar desde 👥 Equipo.
 - 2026-11-18: Colaborador: al elegir un mensajero en Pedidos sale la pestaña "💬 Enviar mensaje a (nombre)": mensaje con su nombre, cuántos domis tiene por recoger y la hora a la que debe venir (con flechas ▲▼). Botones 📋 Copiar y 💬 Abrir WhatsApp.
 - 2026-11-17: Crear/editar pedido: "¿Antes de qué hora?" → 😎 Sin afán o ⏰ Con hora, con flechas ▲▼ para hora, minutos (de 5 en 5) y a. m./p. m. Igual en celular y computador.

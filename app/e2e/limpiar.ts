@@ -1,4 +1,4 @@
-/** Al terminar las pruebas, borra lo que crearon: pedidos "E2E …" y usuarios que empiezan por "e2e". */
+/** Al terminar las pruebas, borra lo que crearon: pedidos "E2E …", cierres de usuarios de prueba y usuarios que empiezan por "e2e". */
 import { config } from "dotenv";
 import postgres from "postgres";
 
@@ -13,6 +13,7 @@ export default async function limpiar() {
     await sql`delete from pedido_eventos where pedido_id in (${pedidosPrueba})`;
     await sql`delete from pedido_eventos where usuario_id in (select id from users where usuario like 'e2e%')`;
     await sql`delete from pedidos where id in (${pedidosPrueba})`;
+    await sql`delete from cierres where mensajero_id in (select id from users where usuario like 'e2e%')`;
     await sql`delete from users where usuario like 'e2e%'`;
     await sql`delete from intentos_entrada where usuario like 'e2e%'`;
   } finally {

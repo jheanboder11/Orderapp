@@ -8,9 +8,9 @@
 | 0. Base | ✅ Lista |
 | 1. Inicio de sesión y Equipo | ✅ Lista |
 | 2. Pedidos del Colaborador | ✅ Lista |
-| 3. Mensajero + fotos | ✅ Lista (falta revisión de Jhean) |
-| 4. Cierres | ⏳ Sigue |
-| 5. Panel del Administrador | — |
+| 3. Mensajero + fotos | ✅ Lista y revisada por Jhean (2026-11-18), con sus ajustes |
+| 4. Cierres | ✅ Lista, versión demo sin correo (falta revisión de Jhean) |
+| 5. Panel del Administrador | ⏳ Sigue: versión mínima 💰 Hoy para la demo |
 | 6. Correos y Ajustes | — |
 | 7. Auditoría y métricas | — |
 | 8. Pulido y despliegue | — |
@@ -20,9 +20,9 @@ Demo funcional que muestre el valor, **no** la app terminada. La historia que de
 > El Colaborador pega el WhatsApp → sale el pedido → el Mensajero sale con foto y entrega con foto → hace el cierre con un toque → el jefe ve la plata del día.
 
 Lo que falta para contar esa historia (versión recortada de las fases 3, 4 y 5):
-1. **Fase 3 recortada — Mensajero:** ver sus entregas, "Salí" con foto, "Entregado" con foto, "No pude" con motivo. Sin pedir más.
-2. **Fase 4 recortada — Cierre:** efectivo − domis = lo que consigna, en el mismo formato de hoy. Sin correo todavía.
-3. **Fase 5 mínima — 💰 Hoy del Administrador:** ventas del día, efectivo vs transferencia, cierres hechos.
+1. ✅ **Fase 3 recortada — Mensajero:** ver sus entregas, "Salí" con foto, "Entregado" con foto, "No pude" con motivo. Sin pedir más.
+2. ✅ **Fase 4 recortada — Cierre:** efectivo − domis = lo que consigna, en el mismo formato de hoy. Sin correo todavía.
+3. ⏳ **Fase 5 mínima — 💰 Hoy del Administrador:** ventas del día, efectivo vs transferencia, cierres hechos.
 4. **Publicarla en Vercel** con datos de ejemplo, para abrirla desde el celular en la reunión.
 
 Se deja para después de la reunión: correos, Ajustes, auditoría visible, CSV, historial completo, pulido.
@@ -37,12 +37,27 @@ Se deja para después de la reunión: correos, Ajustes, auditoría visible, CSV,
 - **Accesos de prueba** (Leo, Ana, Teo, Luz): hay que apagarlos (`MOSTRAR_ACCESOS_PRUEBA=false`) y borrar esas cuentas antes del uso real.
 - **Mensajero sin señal:** si pasa seguido en el piloto, la foto puede fallar. Medirlo antes de construir un "modo sin señal".
 
+## ▶️ Cómo retomar en otro PC (léelo primero)
+1. Claude hace `git pull` solo al abrir. Luego, en `app/`: `pnpm install` (por si hay librerías nuevas) y `pnpm dev`. Abrir http://localhost:3000.
+2. **La base de datos (Neon) es la misma para los dos PCs.** Las migraciones 0002 (celular de usuarios) y 0003 (tabla cierres) **ya están aplicadas**: no hay que correr nada. Si algún día sale "column does not exist", correr `pnpm db:migrate` en `app/`.
+3. Cuentas de prueba: Ana / 12345678 (Colaboradora), Teo / 123456 y Luz / 123456 (Mensajeros). El Administrador usa ADMIN_USUARIO / ADMIN_PASSWORD de `.env.local`.
+4. Si la app sale con "Cannot find module": parar `pnpm dev`, borrar `app/.next` y volver a correr `pnpm dev`.
+5. Pruebas: `pnpm test` (rápidas, 94) y `pnpm test:e2e` (de punta a punta; construyen en `.next-pruebas` y no dañan la app abierta). Con la app abierta en el mismo PC pueden fallar por lentitud: correr el archivo que falló solo, con `--workers=1`.
+6. Las fotos de prueba se guardan en `app/.fotos-locales/` de cada PC y NO viajan por GitHub (en el otro PC salen como "No encontré la foto": es normal).
+
+## Pendientes (código) que Jhean ya pidió o aceptó
+- Poner/cambiar el **celular** de cada usuario desde 👥 Equipo (hoy solo Teo tiene, puesto por Claude directo en la base).
+- **Recargar datos de ejemplo** con la fecha del día antes de la demo (los de hoy son de hace ~8 días y hay pedidos de prueba revueltos). Pedirle permiso a Jhean: borra todos los pedidos.
+- Teo tiene 2 pedidos de prueba sin entregar ("Prueba Mensaje 1 y 2"): por eso su cierre sale bloqueado.
+
 ## Pendientes de negocio (no son código)
+- ⚠️ **Poner el repo de GitHub en privado** (sigue público). Mientras tanto: NO subir celulares, nombres reales ni datos de clientes a GitHub.
 - Precio de venta al jefe y qué incluye (instalación, soporte mensual, cambios).
 - Quién paga Vercel / Neon / dominio cuando pase del plan gratis.
 - Fecha del piloto y quiénes participan (1 Colaborador + 1 Mensajero).
 
 ## Bitácora
+- 2026-11-18 (PC 1, cierre de sesión): ✅ **Fase 4 (cierre del Mensajero) lista**, versión demo sin correo. Módulo nuevo `app/src/modules/cierres/` (schema, rules con pruebas, queries, actions, BotonCierre), pantalla `app/mensajero/cierre`, foto en `/api/fotos/cierre/[id]`, migración 0003 aplicada. Reglas 3–6 del plan con pruebas (neto positivo, negativo, cero, pedidos de mañana). E2E `e2e/fase4-cierre.spec.ts` (2 casos) en verde. Arreglado de paso: el aviso de bloqueo decía "11 minutos" por un desfase de reloj (ahora nunca pasa de 10). Jhean dio la Fase 3 por revisada. ▶️ SIGUIENTE: Jhean prueba el cierre (como Teo, después de entregar o cancelar sus 2 pedidos de prueba) → **Fase 5 mínima: 💰 Hoy del Administrador** (ventas del día sin domis, domicilios, efectivo vs transferencia, cierres por mensajero) → publicar en Vercel → recargar datos de ejemplo.
 - 2026-11-18: Nueva columna `celular` en usuarios (migración 0002, ya aplicada en Neon). A Teo se le puso el celular que dio Jhean (guardado solo en la base, no en GitHub porque el repo es público). Pendiente: poner/cambiar el celular desde 👥 Equipo.
 - 2026-11-18: Mensaje personalizado para cada mensajero (copiar / abrir WhatsApp). Los mensajeros no tienen celular en la app: WhatsApp abre el mensaje y el colaborador escoge el contacto. Se crearon 2 pedidos de prueba para Teo ("Prueba Mensaje 1 y 2").
 - 2026-11-17: Hora límite del pedido: Sin afán / Con hora con flechas ▲▼ (hora, minutos de 5 en 5, a. m./p. m.). Jhean no quiso la lista de horas. Ojo: con la app abierta en pnpm dev, las pruebas de punta a punta pueden fallar por lentitud; corridas solas pasan.

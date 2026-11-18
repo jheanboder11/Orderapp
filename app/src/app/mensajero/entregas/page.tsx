@@ -12,12 +12,17 @@ export const metadata: Metadata = { title: "Entregas · Orderapp" };
 /** Pantalla del Mensajero, ordenada como su día: entregar → recoger → regresar. */
 export default async function Entregas() {
   const r = await misPedidos();
-  const pendientes = r.enCamino.length + r.porRecoger.length + r.regresar.length;
+  const pendientes =
+    r.enCamino.length + r.porRecoger.length + r.regresar.length;
 
   return (
     <>
       <RefrescoAutomatico />
-      <Resumen enCamino={r.enCamino.length} porRecoger={r.porRecoger.length} entregados={r.entregados.length} />
+      <Resumen
+        enCamino={r.enCamino.length}
+        porRecoger={r.porRecoger.length}
+        entregados={r.entregados.length}
+      />
 
       {pendientes === 0 ? (
         <Tarjeta className="mt-3 px-4 py-7 text-center">
@@ -27,18 +32,28 @@ export default async function Entregas() {
           {r.entregados.length ? (
             <>
               <b>Estás al día</b>
-              <p className="text-sm text-suave">No tienes pedidos pendientes.</p>
-              <Link
-                href="/mensajero/cierre"
-                className="mt-3 flex min-h-[54px] w-full items-center justify-center rounded-boton border border-naranja bg-naranja text-[17px] font-bold text-white shadow-[0_3px_0_var(--color-naranja-sombra)]"
-              >
-                🧾 Hacer mi cierre
-              </Link>
+              <p className="text-sm text-suave">
+                No tienes pedidos pendientes.
+              </p>
+              {r.entregados.some((p) => p.cierreId === null) ? (
+                <Link
+                  href="/mensajero/cierre"
+                  className="mt-3 flex min-h-[54px] w-full items-center justify-center rounded-boton border border-naranja bg-naranja text-[17px] font-bold text-white shadow-[0_3px_0_var(--color-naranja-sombra)]"
+                >
+                  🧾 Hacer mi cierre
+                </Link>
+              ) : (
+                <p className="mt-2 text-sm font-semibold text-exito">
+                  ✅ Ya hiciste tu cierre.
+                </p>
+              )}
             </>
           ) : (
             <>
               <b>Hoy no tienes domicilios</b>
-              <p className="text-sm text-suave">Cuando el Colaborador te asigne uno, sale aquí.</p>
+              <p className="text-sm text-suave">
+                Cuando el Colaborador te asigne uno, sale aquí.
+              </p>
             </>
           )}
         </Tarjeta>
@@ -46,7 +61,9 @@ export default async function Entregas() {
 
       {r.enCamino.length ? (
         <section aria-label="Entrégalos ahora">
-          <TituloSeccion nota={`${r.enCamino.length} en camino`}>🏍️ Entrégalos ahora</TituloSeccion>
+          <TituloSeccion nota={`${r.enCamino.length} en camino`}>
+            🏍️ Entrégalos ahora
+          </TituloSeccion>
           {r.enCamino.map((p) => (
             <TarjetaEntrega key={p.id} p={p} />
           ))}
@@ -55,7 +72,9 @@ export default async function Entregas() {
 
       {r.porRecoger.length ? (
         <section aria-label="Recógelos en el local">
-          <TituloSeccion nota={`${r.porRecoger.length} ${r.porRecoger.length === 1 ? "listo" : "listos"}`}>
+          <TituloSeccion
+            nota={`${r.porRecoger.length} ${r.porRecoger.length === 1 ? "listo" : "listos"}`}
+          >
             📦 Recógelos en el local
           </TituloSeccion>
           <RecogerEnLocal lista={r.porRecoger} />
@@ -64,7 +83,9 @@ export default async function Entregas() {
 
       {r.regresar.length ? (
         <section aria-label="Regrésalos al local">
-          <TituloSeccion nota={String(r.regresar.length)}>↩️ Regrésalos al local</TituloSeccion>
+          <TituloSeccion nota={String(r.regresar.length)}>
+            ↩️ Regrésalos al local
+          </TituloSeccion>
           {r.regresar.map((p) => (
             <TarjetaEntrega key={p.id} p={p} />
           ))}
@@ -73,7 +94,8 @@ export default async function Entregas() {
 
       {r.manana.length ? (
         <p className="mt-5 text-center text-sm text-suave">
-          🗓️ Tienes {r.manana.length} {r.manana.length === 1 ? "pedido" : "pedidos"} para mañana.{" "}
+          🗓️ Tienes {r.manana.length}{" "}
+          {r.manana.length === 1 ? "pedido" : "pedidos"} para mañana.{" "}
           <Link href="/mensajero/hechos" className="font-semibold underline">
             Verlos
           </Link>

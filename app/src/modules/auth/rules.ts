@@ -93,5 +93,7 @@ export const MAX_FALLIDOS = 5;
 export const MINUTOS_BLOQUEO = 10;
 
 export function minutosRestantes(bloqueadoHasta: Date, ahora: Date = new Date()): number {
-  return Math.max(1, Math.ceil((bloqueadoHasta.getTime() - ahora.getTime()) / 60_000));
+  // Nunca más de MINUTOS_BLOQUEO: si el reloj del servidor y el de la base no cuadran por unos segundos, no dice "11".
+  const min = Math.ceil((bloqueadoHasta.getTime() - ahora.getTime()) / 60_000);
+  return Math.min(MINUTOS_BLOQUEO, Math.max(1, min));
 }
