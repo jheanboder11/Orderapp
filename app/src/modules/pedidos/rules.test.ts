@@ -16,6 +16,7 @@ import {
   motivoCancelacion,
   puedeEditar,
   puedeReasignar,
+  textoParaMensajero,
   textoParaWhatsApp,
 } from "./rules";
 
@@ -252,5 +253,16 @@ describe("copiar para WhatsApp", () => {
     });
     expect(t).toContain("Ya pagado, no cobrar");
     expect(t).not.toContain("Nota");
+  });
+});
+
+describe("mensaje para el mensajero", () => {
+  it("lleva su nombre, cuántos domis y la hora", () => {
+    expect(textoParaMensajero("Teo", 4, "hoy", "2:00 p. m.")).toBe(
+      "Holaa Teo 👋, hoy tenemos varios domis para ti, son alrededor de 4 y debes venir antes de las 2:00 p. m. ¿Contamos contigo para los domis? 🏍️",
+    );
+    expect(textoParaMensajero("Luz", 1, "mañana", "9:30 a. m.")).toBe(
+      "Holaa Luz 👋, mañana tenemos un domi para ti y debes venir antes de las 9:30 a. m. ¿Contamos contigo para los domis? 🏍️",
+    );
   });
 });

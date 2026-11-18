@@ -5,7 +5,7 @@ const claseFlecha =
   "flex h-11 w-full cursor-pointer items-center justify-center rounded-boton border border-linea bg-tarjeta text-lg font-bold text-tinta active:bg-campo";
 
 /** Una columna con ▲ valor ▼ (hora, minutos o a. m./p. m.). */
-function Rueda({
+export function Rueda({
   nombre,
   valor,
   subir,

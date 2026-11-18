@@ -4,6 +4,7 @@ import { RefrescoAutomatico } from "@/components/RefrescoAutomatico";
 import { Tarjeta } from "@/components/ui";
 import { fechaBogota } from "@/lib/formato";
 import { exigirRol } from "@/modules/auth/sesion";
+import { MensajeMensajero } from "@/modules/pedidos/components/MensajeMensajero";
 import { TarjetaPedido } from "@/modules/pedidos/components/TarjetaPedido";
 import { mensajerosActivos, pedidosDelColaborador } from "@/modules/pedidos/queries";
 import { clasificar } from "@/modules/pedidos/rules";
@@ -75,7 +76,7 @@ export default async function Pedidos({ searchParams }: { searchParams: Promise<
         {titulo}
       </h1>
 
-      {botonesMensajero.length > 1 ? (
+      {botonesMensajero.length > 0 ? (
         <nav aria-label="Pedidos por mensajero" className="mb-3.5 flex flex-wrap gap-1.5">
           {[{ id: null as string | null, nombre: "Todos", n: delDia.length }, ...botonesMensajero].map((b) => {
             const activo = elegido === b.id;
@@ -94,6 +95,15 @@ export default async function Pedidos({ searchParams }: { searchParams: Promise<
             );
           })}
         </nav>
+      ) : null}
+
+      {elegido && filtro !== "ayer" ? (
+        <MensajeMensajero
+          key={elegido}
+          nombre={porMensajero.get(elegido)?.nombre ?? ""}
+          cantidad={lista.filter((p) => p.estado === "EMPACADO").length}
+          dia={filtro === "hoy" ? "hoy" : "mañana"}
+        />
       ) : null}
 
       {lista.length === 0 ? (

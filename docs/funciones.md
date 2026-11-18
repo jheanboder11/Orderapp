@@ -42,6 +42,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Quitar los accesos de prueba antes de usarla de verdad.
 
 ## Historial de cambios
+- 2026-11-18: Colaborador: al elegir un mensajero en Pedidos sale la pestaña "💬 Enviar mensaje a (nombre)": mensaje con su nombre, cuántos domis tiene por recoger y la hora a la que debe venir (con flechas ▲▼). Botones 📋 Copiar y 💬 Abrir WhatsApp.
 - 2026-11-17: Crear/editar pedido: "¿Antes de qué hora?" → 😎 Sin afán o ⏰ Con hora, con flechas ▲▼ para hora, minutos (de 5 en 5) y a. m./p. m. Igual en celular y computador.
 - 2026-11-17: Colaborador: módulo nuevo 🚨 Alerta (problemas + demorados) con numerito y franja roja en los otros módulos; listas en orden de número #1, #2, #3…; botones para ver los pedidos de cada mensajero.
 - 2026-11-17: Mensajero: "Hechos" ahora se llama "✅ Entregados". El pago dice "Efectivo $…", "Transferencia $…" o "Pago anticipado". Al tocar un pedido entregado se abre su detalle (dirección, celular, qué llevó, pago, domi, horas, nota y fotos).

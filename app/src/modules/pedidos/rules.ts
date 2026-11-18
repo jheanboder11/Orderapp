@@ -283,3 +283,10 @@ export function textoParaWhatsApp(p: {
 export function textoDemora(p: { numeroDia: number; cliente: string; mensajero: string; minutos: number }) {
   return `Hola ${p.mensajero} 👋 ¿Cómo vas con el pedido #${p.numeroDia} de ${p.cliente}? Ya lleva ${p.minutos} min en la calle.`;
 }
+
+/** Mensaje para invitar a un mensajero a recoger sus domis (se copia o se abre en WhatsApp). */
+export function textoParaMensajero(nombre: string, cantidad: number, dia: "hoy" | "mañana", hora: string): string {
+  const cuantos =
+    cantidad === 1 ? `${dia} tenemos un domi para ti` : `${dia} tenemos varios domis para ti, son alrededor de ${cantidad}`;
+  return `Holaa ${nombre} 👋, ${cuantos} y debes venir antes de las ${hora} ¿Contamos contigo para los domis? 🏍️`;
+}
