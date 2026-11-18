@@ -9,7 +9,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 | Rol | Quién es | Módulos |
 |---|---|---|
 | **Administrador** | El jefe | 💰 Hoy · 🧾 Cierres · 🗂️ Historial (10 días) · 👥 Equipo (crea usuarios) |
-| **Colaborador** | Logística: vende, empaca y despacha | 📋 Pedidos (Hoy · Mañana · Ayer) · ➕ Nuevo |
+| **Colaborador** | Logística: vende, empaca y despacha | 📋 Pedidos (Hoy · Mañana · Ayer) · ➕ Nuevo · 🚨 Alerta |
 | **Mensajero** | Entrega | 🏍️ Entregas · 🧾 Cierre · ✅ Entregados |
 
 ## Funciones activas
@@ -20,8 +20,9 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Crear pedido pegando el mensaje de WhatsApp (la app llena los campos y dice qué no encontró). El domi se calcula solo por zona.
 - El total (con domi) se pide siempre, aunque el cliente ya haya pagado, y debe ser mayor que el domi.
 - Número del pedido por día (#1, #2…). Para hoy o para mañana, con hora límite opcional.
-- Listas Hoy · Mañana · Ayer. Editar (solo empacado), cancelar con motivo (confirmación dentro de la tarjeta), cambiar mensajero, copiar para WhatsApp, "Ya recibí el paquete de vuelta" (Problema → Devuelto).
-- La lista se actualiza sola cada minuto. Numerito naranja en 📋 Pedidos = demorados + problemas.
+- Listas Hoy · Mañana · Ayer, en orden de número (#1, #2, #3…; lo que quedó de días anteriores va primero). Botones por mensajero (Todos · Teo · Luz…) para ver solo los pedidos de uno. Editar (solo empacado), cancelar con motivo (confirmación dentro de la tarjeta), cambiar mensajero, copiar para WhatsApp, "Ya recibí el paquete de vuelta" (Problema → Devuelto).
+- La lista se actualiza sola cada minuto.
+- 🚨 Alerta (Colaborador): pedidos con problema y demorados en un solo lugar. Numerito naranja en 🚨 Alerta y franja roja "🚨 N domicilios necesitan ayuda · Ver →" en los demás módulos.
 - Cada cambio de un pedido queda anotado (auditoría invisible).
 - Mensajero: una foto para salir con todos sus paquetes, foto al entregar, "No pude entregarlo" con motivo, botones Llamar · Mapa · WhatsApp.
 - Cierre del mensajero: efectivo − pago de domis = lo que consigna (o lo que la empresa le consigna), con foto de la consignación.
@@ -41,6 +42,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Quitar los accesos de prueba antes de usarla de verdad.
 
 ## Historial de cambios
+- 2026-11-17: Colaborador: módulo nuevo 🚨 Alerta (problemas + demorados) con numerito y franja roja en los otros módulos; listas en orden de número #1, #2, #3…; botones para ver los pedidos de cada mensajero.
 - 2026-11-17: Mensajero: "Hechos" ahora se llama "✅ Entregados". El pago dice "Efectivo $…", "Transferencia $…" o "Pago anticipado". Al tocar un pedido entregado se abre su detalle (dirección, celular, qué llevó, pago, domi, horas, nota y fotos).
 - 2026-11-14: Fase 3 lista: pantalla del Mensajero (En camino · Por recoger · Entregados; Entrégalos ahora; Recógelos en el local con UNA foto para salir; Regrésalos al local; Hechos y Para mañana), foto al entregar, "No pude entregarlo" con motivo, Llamar · Mapa · WhatsApp. Fotos achicadas en el celular y guardadas como privadas (solo se ven con sesión; el Mensajero solo ve las suyas).
 - 2026-11-09: Fase 2 lista: pedidos del Colaborador (crear con atajo de WhatsApp, listas, editar, cancelar, reasignar, copiar, devuelto, alerta de demorados) y 10 pedidos de ejemplo.

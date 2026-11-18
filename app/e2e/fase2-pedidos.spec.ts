@@ -154,6 +154,10 @@ test("un pedido con problema pasa a devuelto y la alerta de demora avisa", async
   }
 
   await entrarComoAna(page);
+  // Franja roja en Pedidos que lleva a 🚨 Alerta
+  await page.getByRole("status").filter({ hasText: /necesitan? ayuda/ }).click();
+  await expect(page).toHaveURL(/\/colaborador\/alerta$/);
+  await expect(tarjeta(page, problema).getByText("Problema:")).toBeVisible();
   const alerta = page.getByRole("alert").filter({ hasText: "⏰ Ojo, estos pedidos se están demorando:" });
   await expect(alerta.getByText(new RegExp(`${demorado} lleva 15\\d min en la calle con Teo`))).toBeVisible();
   await expect(alerta.getByRole("link", { name: "💬 Escribirle" }).first()).toHaveAttribute(
@@ -161,6 +165,7 @@ test("un pedido con problema pasa a devuelto y la alerta de demora avisa", async
     /^https:\/\/wa\.me\/\?text=/,
   );
 
+  await page.getByRole("link", { name: /Pedidos/ }).click();
   const t = tarjeta(page, problema);
   await expect(t.getByText("Problema:")).toBeVisible();
   await t.getByRole("button", { name: "↩️ Ya recibí el paquete de vuelta" }).click();

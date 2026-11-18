@@ -4,6 +4,7 @@ import { exigirRol } from "@/modules/auth/sesion";
 import { pendientesMensajero } from "@/modules/entregas/queries";
 import { pendientesColaborador } from "@/modules/pedidos/queries";
 import { Avisos } from "./Avisos";
+import { AvisoAlertas } from "./AvisoAlertas";
 import { BarraModulos } from "./BarraModulos";
 import { Encabezado } from "./Encabezado";
 import { Tarjeta, TituloModulo } from "./ui";
@@ -13,7 +14,7 @@ export async function Marco({ rol, children }: { rol: Rol; children: ReactNode }
   const u = await exigirRol(rol);
   const pendientes: Record<string, number> =
     rol === "COLABORADOR"
-      ? { "/colaborador/pedidos": await pendientesColaborador() }
+      ? { "/colaborador/alerta": await pendientesColaborador() }
       : rol === "MENSAJERO"
         ? { "/mensajero/entregas": await pendientesMensajero(u.id) }
         : {};
@@ -21,7 +22,12 @@ export async function Marco({ rol, children }: { rol: Rol; children: ReactNode }
     <>
       <Encabezado nombre={u.nombre} />
       <BarraModulos rol={rol} pendientes={pendientes} />
-      <main>{children}</main>
+      <main>
+        {rol === "COLABORADOR" ? (
+          <AvisoAlertas cuantos={pendientes["/colaborador/alerta"] ?? 0} href="/colaborador/alerta" />
+        ) : null}
+        {children}
+      </main>
       <Avisos />
     </>
   );

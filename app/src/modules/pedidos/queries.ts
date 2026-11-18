@@ -88,7 +88,7 @@ export async function pedidoParaEditar(id: number) {
   return p ?? null;
 }
 
-/** Numerito naranja de "📋 Pedidos": demorados + problemas por resolver. */
+/** Numerito de "🚨 Alerta" y franja roja: demorados + problemas por resolver. */
 export async function pendientesColaborador() {
   const lista = await db
     .select({

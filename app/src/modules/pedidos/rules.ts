@@ -208,12 +208,13 @@ export function clasificar<T extends PedidoBase>(lista: T[], hoy: string) {
       r.hoy.push(p);
     else if (p.fechaEntrega === ayer || diaEntregado === ayer) r.ayer.push(p);
   }
+  // En orden de número: #1, #2, #3… (los que quedaron de días anteriores van primero).
   const orden = (a: T, b: T) =>
     a.fechaCreacion === b.fechaCreacion
-      ? b.numeroDia - a.numeroDia
+      ? a.numeroDia - b.numeroDia
       : a.fechaCreacion < b.fechaCreacion
-        ? 1
-        : -1;
+        ? -1
+        : 1;
   r.hoy.sort(orden);
   r.manana.sort(orden);
   r.ayer.sort(orden);

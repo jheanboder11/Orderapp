@@ -4,10 +4,9 @@ import { RefrescoAutomatico } from "@/components/RefrescoAutomatico";
 import { Tarjeta } from "@/components/ui";
 import { fechaBogota } from "@/lib/formato";
 import { exigirRol } from "@/modules/auth/sesion";
-import { AlertaDemorados } from "@/modules/pedidos/components/piezas";
 import { TarjetaPedido } from "@/modules/pedidos/components/TarjetaPedido";
 import { mensajerosActivos, pedidosDelColaborador } from "@/modules/pedidos/queries";
-import { clasificar, estaDemorado, minutosEnLaCalle } from "@/modules/pedidos/rules";
+import { clasificar } from "@/modules/pedidos/rules";
 
 export const metadata: Metadata = { title: "Pedidos · Orderapp" };
 
@@ -18,26 +17,33 @@ const FILTROS = [
 ] as const;
 type Filtro = (typeof FILTROS)[number]["clave"];
 
-export default async function Pedidos({ searchParams }: { searchParams: Promise<{ ver?: string }> }) {
+export default async function Pedidos({ searchParams }: { searchParams: Promise<{ ver?: string; m?: string }> }) {
   await exigirRol("COLABORADOR");
-  const { ver } = await searchParams;
+  const { ver, m } = await searchParams;
   const filtro: Filtro = ver === "manana" || ver === "ayer" ? ver : "hoy";
 
   const hoy = fechaBogota();
-  const ahora = new Date();
   const [todos, mensajeros] = await Promise.all([pedidosDelColaborador(hoy), mensajerosActivos()]);
   const listas = clasificar(todos, hoy);
-  const lista = listas[filtro];
+  const delDia = listas[filtro];
 
-  const demorados = todos
-    .filter((p) => estaDemorado(p, p.limiteMinutos, ahora))
-    .map((p) => ({
-      id: p.id,
-      numeroDia: p.numeroDia,
-      cliente: p.cliente,
-      mensajero: p.mensajero,
-      minutos: minutosEnLaCalle(p.horaSalida, ahora) ?? 0,
-    }));
+  // Botones por mensajero: solo los que tienen pedidos en este día.
+  const porMensajero = new Map<string, { id: string; nombre: string; n: number }>();
+  for (const p of delDia) {
+    const x = porMensajero.get(p.mensajeroId) ?? { id: p.mensajeroId, nombre: p.mensajero, n: 0 };
+    x.n++;
+    porMensajero.set(p.mensajeroId, x);
+  }
+  const botonesMensajero = [...porMensajero.values()].sort((a, b) => a.nombre.localeCompare(b.nombre));
+  const elegido = m && porMensajero.has(m) ? m : null;
+  const lista = elegido ? delDia.filter((p) => p.mensajeroId === elegido) : delDia;
+  const linkDe = (dia: Filtro, mensajero: string | null) => {
+    const q = new URLSearchParams();
+    if (dia !== "hoy") q.set("ver", dia);
+    if (mensajero) q.set("m", mensajero);
+    const s = q.toString();
+    return s ? `/colaborador/pedidos?${s}` : "/colaborador/pedidos";
+  };
 
   const titulo = {
     hoy: "Los pedidos de hoy",
@@ -48,15 +54,11 @@ export default async function Pedidos({ searchParams }: { searchParams: Promise<
   return (
     <>
       <RefrescoAutomatico />
-      <div className="mt-4">
-        <AlertaDemorados lista={demorados} />
-      </div>
-
-      <nav aria-label="Filtro de pedidos" className="mb-3.5 flex gap-1.5 rounded-full bg-campo p-1">
+      <nav aria-label="Filtro de pedidos" className="mt-4 mb-3.5 flex gap-1.5 rounded-full bg-campo p-1">
         {FILTROS.map((f) => (
           <Link
             key={f.clave}
-            href={f.clave === "hoy" ? "/colaborador/pedidos" : `/colaborador/pedidos?ver=${f.clave}`}
+            href={linkDe(f.clave, null)}
             aria-current={filtro === f.clave ? "page" : undefined}
             className={`flex-1 rounded-full px-1.5 py-2.5 text-center text-sm font-semibold ${
               filtro === f.clave ? "bg-tarjeta text-tinta shadow-suave" : "text-suave"
@@ -72,6 +74,27 @@ export default async function Pedidos({ searchParams }: { searchParams: Promise<
       >
         {titulo}
       </h1>
+
+      {botonesMensajero.length > 1 ? (
+        <nav aria-label="Pedidos por mensajero" className="mb-3.5 flex flex-wrap gap-1.5">
+          {[{ id: null as string | null, nombre: "Todos", n: delDia.length }, ...botonesMensajero].map((b) => {
+            const activo = elegido === b.id;
+            return (
+              <Link
+                key={b.id ?? "todos"}
+                href={linkDe(filtro, b.id)}
+                aria-current={activo ? "page" : undefined}
+                className={`inline-flex min-h-[40px] items-center rounded-full border px-3.5 text-sm font-semibold ${
+                  activo ? "border-tinta bg-tinta text-white" : "border-linea bg-tarjeta text-tinta"
+                }`}
+              >
+                {b.id ? "🏍️ " : ""}
+                {b.nombre} ({b.n})
+              </Link>
+            );
+          })}
+        </nav>
+      ) : null}
 
       {lista.length === 0 ? (
         filtro === "hoy" ? (

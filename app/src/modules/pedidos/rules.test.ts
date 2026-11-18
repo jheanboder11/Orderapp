@@ -189,9 +189,12 @@ describe("listas de hoy, mañana y ayer", () => {
     expect(r.ayer.map((x) => x.id)).toEqual([3]);
   });
 
-  it("los más nuevos van primero", () => {
-    const r = clasificar([p({ id: 1 }), p({ id: 3 }), p({ id: 2 })], hoy);
-    expect(r.hoy.map((x) => x.id)).toEqual([3, 2, 1]);
+  it("van en orden de número (#1, #2, #3…) y lo de días anteriores primero", () => {
+    const r = clasificar(
+      [p({ id: 1 }), p({ id: 3 }), p({ id: 9, numeroDia: 7, fechaCreacion: "2026-11-08", estado: "EN_ENTREGA" }), p({ id: 2 })],
+      hoy,
+    );
+    expect(r.hoy.map((x) => x.id)).toEqual([9, 1, 2, 3]);
   });
 
   it("etiqueta los agendados, atrasados y los de mañana", () => {
