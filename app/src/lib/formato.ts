@@ -51,6 +51,12 @@ export function fechaBonita(fecha: string): string {
   return `${DIAS[f.getUTCDay()]} ${f.getUTCDate()} de ${MESES[f.getUTCMonth()]}`;
 }
 
+/** Horas para "Entregar antes de": cada media hora de 7:00 a. m. a 9:00 p. m. ("07:00" … "21:00"). */
+export const HORAS_LIMITE: string[] = Array.from({ length: 29 }, (_, i) => {
+  const min = 7 * 60 + i * 30;
+  return `${String(Math.floor(min / 60)).padStart(2, "0")}:${String(min % 60).padStart(2, "0")}`;
+});
+
 /** "17:00:00" o "17:00" → "5:00 p. m." */
 export function horaCorta(hhmm: string): string {
   const [h, m] = hhmm.split(":").map(Number);

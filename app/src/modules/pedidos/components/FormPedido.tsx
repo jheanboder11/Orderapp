@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { enviarSinBorrar } from "@/components/enviar";
 import { Aviso, Boton, Campo, Selector, Tarjeta } from "@/components/ui";
-import { pesos } from "@/lib/formato";
+import { HORAS_LIMITE, horaCorta, pesos } from "@/lib/formato";
 import type { EstadoAccion } from "../actions";
 import { FORMAS_PAGO, NOMBRE_PAGO } from "../rules";
 import { faltantes, leerMensaje } from "../whatsapp";
@@ -232,13 +232,22 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
               <option value="HOY">Hoy</option>
               <option value="MANANA">Mañana</option>
             </Selector>
-            <Campo
-              etiqueta="Entregar antes de (opcional)"
+            <Selector
+              etiqueta="¿Antes de qué hora?"
               name="entregarAntes"
-              type="time"
               value={c.entregarAntes}
               onChange={cambiar("entregarAntes")}
-            />
+            >
+              <option value="">Sin afán</option>
+              {(c.entregarAntes && !HORAS_LIMITE.includes(c.entregarAntes)
+                ? [...HORAS_LIMITE, c.entregarAntes].sort()
+                : HORAS_LIMITE
+              ).map((h) => (
+                <option key={h} value={h}>
+                  {horaCorta(h)}
+                </option>
+              ))}
+            </Selector>
           </div>
           <Campo
             etiqueta="¿Algo especial? (referencia)"

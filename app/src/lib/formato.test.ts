@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fechaBogota, horaBogota, pesos } from "./formato";
+import { HORAS_LIMITE, fechaBogota, horaBogota, horaCorta, pesos } from "./formato";
 
 describe("pesos", () => {
   it("pone el signo $ y puntos de miles", () => {
@@ -26,5 +26,16 @@ describe("fechas en Bogotá", () => {
   });
   it("muestra la hora de Bogotá", () => {
     expect(horaBogota(new Date("2026-10-25T20:05:00Z"))).toMatch(/^3:05/);
+  });
+});
+
+describe("horas para entregar antes de", () => {
+  it("van cada media hora de 7:00 a. m. a 9:00 p. m.", () => {
+    expect(HORAS_LIMITE[0]).toBe("07:00");
+    expect(HORAS_LIMITE[1]).toBe("07:30");
+    expect(HORAS_LIMITE.at(-1)).toBe("21:00");
+    expect(HORAS_LIMITE).toHaveLength(29);
+    expect(horaCorta("12:30")).toBe("12:30 p. m.");
+    expect(horaCorta("17:00")).toBe("5:00 p. m.");
   });
 });
