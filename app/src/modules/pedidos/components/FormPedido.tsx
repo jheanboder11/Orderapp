@@ -4,10 +4,11 @@ import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { enviarSinBorrar } from "@/components/enviar";
 import { Aviso, Boton, Campo, Selector, Tarjeta } from "@/components/ui";
-import { HORAS_LIMITE, horaCorta, pesos } from "@/lib/formato";
+import { pesos } from "@/lib/formato";
 import type { EstadoAccion } from "../actions";
 import { FORMAS_PAGO, NOMBRE_PAGO } from "../rules";
 import { faltantes, leerMensaje } from "../whatsapp";
+import { HoraLimite } from "./HoraLimite";
 
 type Zona = { id: number; nombre: string; tarifaDomi: number };
 type Mensajero = { id: string; nombre: string };
@@ -227,28 +228,11 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
               maxLength={15}
             />
           </div>
-          <div className="grid grid-cols-2 gap-2.5">
-            <Selector etiqueta="¿Para cuándo es?" name="para" value={c.para} onChange={cambiar("para")}>
-              <option value="HOY">Hoy</option>
-              <option value="MANANA">Mañana</option>
-            </Selector>
-            <Selector
-              etiqueta="¿Antes de qué hora?"
-              name="entregarAntes"
-              value={c.entregarAntes}
-              onChange={cambiar("entregarAntes")}
-            >
-              <option value="">Sin afán</option>
-              {(c.entregarAntes && !HORAS_LIMITE.includes(c.entregarAntes)
-                ? [...HORAS_LIMITE, c.entregarAntes].sort()
-                : HORAS_LIMITE
-              ).map((h) => (
-                <option key={h} value={h}>
-                  {horaCorta(h)}
-                </option>
-              ))}
-            </Selector>
-          </div>
+          <Selector etiqueta="¿Para cuándo es?" name="para" value={c.para} onChange={cambiar("para")}>
+            <option value="HOY">Hoy</option>
+            <option value="MANANA">Mañana</option>
+          </Selector>
+          <HoraLimite valor={c.entregarAntes} cambiar={(v) => setC((antes) => ({ ...antes, entregarAntes: v }))} />
           <Campo
             etiqueta="¿Algo especial? (referencia)"
             name="nota"

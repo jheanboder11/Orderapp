@@ -42,7 +42,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Quitar los accesos de prueba antes de usarla de verdad.
 
 ## Historial de cambios
-- 2026-11-17: Crear/editar pedido: "Entregar antes de" ahora es una lista "¿Antes de qué hora?" (Sin afán, 7:00 a. m. … 9:00 p. m., cada media hora). Igual de fácil en celular y computador.
+- 2026-11-17: Crear/editar pedido: "¿Antes de qué hora?" → 😎 Sin afán o ⏰ Con hora, con flechas ▲▼ para hora, minutos (de 5 en 5) y a. m./p. m. Igual en celular y computador.
 - 2026-11-17: Colaborador: módulo nuevo 🚨 Alerta (problemas + demorados) con numerito y franja roja en los otros módulos; listas en orden de número #1, #2, #3…; botones para ver los pedidos de cada mensajero.
 - 2026-11-17: Mensajero: "Hechos" ahora se llama "✅ Entregados". El pago dice "Efectivo $…", "Transferencia $…" o "Pago anticipado". Al tocar un pedido entregado se abre su detalle (dirección, celular, qué llevó, pago, domi, horas, nota y fotos).
 - 2026-11-14: Fase 3 lista: pantalla del Mensajero (En camino · Por recoger · Entregados; Entrégalos ahora; Recógelos en el local con UNA foto para salir; Regrésalos al local; Hechos y Para mañana), foto al entregar, "No pude entregarlo" con motivo, Llamar · Mapa · WhatsApp. Fotos achicadas en el celular y guardadas como privadas (solo se ven con sesión; el Mensajero solo ve las suyas).

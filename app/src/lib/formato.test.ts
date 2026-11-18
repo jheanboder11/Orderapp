@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { HORAS_LIMITE, fechaBogota, horaBogota, horaCorta, pesos } from "./formato";
+import { aHora24, deHora24, fechaBogota, horaBogota, horaCorta, moverHora, pesos } from "./formato";
 
 describe("pesos", () => {
   it("pone el signo $ y puntos de miles", () => {
@@ -29,13 +29,23 @@ describe("fechas en Bogotá", () => {
   });
 });
 
-describe("horas para entregar antes de", () => {
-  it("van cada media hora de 7:00 a. m. a 9:00 p. m.", () => {
-    expect(HORAS_LIMITE[0]).toBe("07:00");
-    expect(HORAS_LIMITE[1]).toBe("07:30");
-    expect(HORAS_LIMITE.at(-1)).toBe("21:00");
-    expect(HORAS_LIMITE).toHaveLength(29);
-    expect(horaCorta("12:30")).toBe("12:30 p. m.");
+describe("hora con flechas (hora, minutos, a. m./p. m.)", () => {
+  it("parte y arma la hora", () => {
+    expect(deHora24("17:30")).toEqual({ hora: 5, minutos: 30, pm: true });
+    expect(deHora24("00:05")).toEqual({ hora: 12, minutos: 5, pm: false });
+    expect(deHora24("12:00")).toEqual({ hora: 12, minutos: 0, pm: true });
+    expect(aHora24({ hora: 12, minutos: 0, pm: false })).toBe("00:00");
+    expect(aHora24({ hora: 12, minutos: 45, pm: true })).toBe("12:45");
+    expect(aHora24({ hora: 9, minutos: 5, pm: false })).toBe("09:05");
+  });
+  it("las flechas dan la vuelta", () => {
+    const p = { hora: 12, minutos: 55, pm: false };
+    expect(moverHora(p, "hora", 1).hora).toBe(1);
+    expect(moverHora({ ...p, hora: 1 }, "hora", -1).hora).toBe(12);
+    expect(moverHora(p, "minutos", 1).minutos).toBe(0);
+    expect(moverHora({ ...p, minutos: 0 }, "minutos", -1).minutos).toBe(55);
+    expect(moverHora({ ...p, minutos: 17 }, "minutos", 1).minutos).toBe(20);
+    expect(moverHora(p, "pm", 1).pm).toBe(true);
     expect(horaCorta("17:00")).toBe("5:00 p. m.");
   });
 });

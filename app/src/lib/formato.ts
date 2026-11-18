@@ -51,11 +51,30 @@ export function fechaBonita(fecha: string): string {
   return `${DIAS[f.getUTCDay()]} ${f.getUTCDate()} de ${MESES[f.getUTCMonth()]}`;
 }
 
-/** Horas para "Entregar antes de": cada media hora de 7:00 a. m. a 9:00 p. m. ("07:00" … "21:00"). */
-export const HORAS_LIMITE: string[] = Array.from({ length: 29 }, (_, i) => {
-  const min = 7 * 60 + i * 30;
-  return `${String(Math.floor(min / 60)).padStart(2, "0")}:${String(min % 60).padStart(2, "0")}`;
-});
+/** Hora partida como la ve la persona: 5 : 30 p. m. */
+export type Partes = { hora: number; minutos: number; pm: boolean };
+
+/** "17:30" → { hora: 5, minutos: 30, pm: true } */
+export function deHora24(hhmm: string): Partes {
+  const [h = 0, m = 0] = hhmm.split(":").map(Number);
+  return { hora: h % 12 === 0 ? 12 : h % 12, minutos: m, pm: h >= 12 };
+}
+
+/** { hora: 5, minutos: 30, pm: true } → "17:30" */
+export function aHora24(p: Partes): string {
+  const h = (p.hora % 12) + (p.pm ? 12 : 0);
+  return `${String(h).padStart(2, "0")}:${String(p.minutos).padStart(2, "0")}`;
+}
+
+/** Flechas ▲▼: la hora da la vuelta 12 → 1, los minutos van de 5 en 5 (55 → 00) y a. m./p. m. se alterna. */
+export function moverHora(p: Partes, campo: keyof Partes, paso: 1 | -1): Partes {
+  if (campo === "hora") return { ...p, hora: ((p.hora - 1 + paso + 12) % 12) + 1 };
+  if (campo === "minutos") {
+    const base = Math.round(p.minutos / 5) * 5;
+    return { ...p, minutos: (base + paso * 5 + 60) % 60 };
+  }
+  return { ...p, pm: !p.pm };
+}
 
 /** "17:00:00" o "17:00" → "5:00 p. m." */
 export function horaCorta(hhmm: string): string {
