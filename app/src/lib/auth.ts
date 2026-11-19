@@ -4,6 +4,7 @@ import { APIError, createAuthMiddleware } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
 import { username } from "better-auth/plugins";
 import { eq, sql } from "drizzle-orm";
+import { networkInterfaces } from "node:os";
 import { db } from "@/db";
 import * as tablas from "@/modules/auth/schema";
 import {
@@ -27,8 +28,22 @@ function usuarioDelCuerpo(body: unknown): string | null {
   return null;
 }
 
+/**
+ * Solo en el PC (pnpm dev): deja entrar desde el celular conectado al mismo WiFi,
+ * usando las direcciones de red del PC (ej. http://192.168.1.5:3000). En Vercel no aplica.
+ */
+function origenesRedLocal(): string[] {
+  if (process.env.NODE_ENV !== "development") return [];
+  const puerto = process.env.PORT || "3000";
+  return Object.values(networkInterfaces())
+    .flat()
+    .filter((red) => red && red.family === "IPv4" && !red.internal)
+    .map((red) => `http://${red!.address}:${puerto}`);
+}
+
 export const auth = betterAuth({
   appName: "Orderapp",
+  trustedOrigins: origenesRedLocal(),
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
