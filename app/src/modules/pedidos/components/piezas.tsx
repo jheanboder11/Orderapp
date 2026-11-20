@@ -1,4 +1,10 @@
-import { EMOJI_ESTADO, type Estado, NOMBRE_ESTADO, textoDemora } from "../rules";
+import {
+  EMOJI_ESTADO,
+  type Estado,
+  NOMBRE_ESTADO,
+  textoDemora,
+} from "../rules";
+import { claseBotonChico } from "@/components/ui";
 
 const ESTILO_CHIP: Record<Estado, string> = {
   EMPACADO: "bg-campo border-linea",
@@ -20,25 +26,38 @@ export function ChipEstado({ estado }: { estado: Estado }) {
   );
 }
 
-export type Demorado = { id: number; numeroDia: number; cliente: string; mensajero: string; minutos: number };
+export type Demorado = {
+  id: number;
+  numeroDia: number;
+  cliente: string;
+  mensajero: string;
+  minutos: number;
+};
 
 /** ⏰ Alerta de pedidos demorados, arriba de la lista. */
 export function AlertaDemorados({ lista }: { lista: Demorado[] }) {
   if (lista.length === 0) return null;
   return (
-    <div role="alert" className="mb-3.5 rounded-tarjeta border-2 border-ambar bg-tarjeta p-3.5">
+    <div
+      role="alert"
+      className="mb-4 rounded-tarjeta border border-[#ffd98a] bg-ambar-fondo p-[18px]"
+    >
       <b className="text-ambar">⏰ Ojo, estos pedidos se están demorando:</b>
       <ul className="mt-1">
         {lista.map((d) => (
-          <li key={d.id} className="mt-2 flex items-center justify-between gap-2 text-sm">
+          <li
+            key={d.id}
+            className="mt-2 flex items-center justify-between gap-2 text-sm"
+          >
             <span>
-              #{d.numeroDia} {d.cliente} lleva {d.minutos} min en la calle con {d.mensajero}
+              #{d.numeroDia} {d.cliente} lleva {d.minutos} min en la calle con{" "}
+              {d.mensajero}
             </span>
             <a
               href={`https://wa.me/?text=${encodeURIComponent(textoDemora(d))}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[40px] flex-none items-center rounded-boton border border-linea bg-tarjeta px-3 text-[13px] font-semibold"
+              className={`${claseBotonChico} flex-none`}
             >
               💬 Escribirle
             </a>

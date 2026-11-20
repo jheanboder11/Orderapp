@@ -30,7 +30,7 @@ test("crear un pedido pegando el mensaje de WhatsApp", async ({ page }) => {
   const cliente = clientePrueba("Juliana");
   await entrarComoAna(page);
   await page.getByRole("link", { name: /Nuevo/ }).click();
-  await expect(page.getByRole("heading", { name: /➕ Domicilio #\d+/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Domicilio #\d+/ })).toBeVisible();
 
   await page
     .getByLabel("Mensaje del cliente")

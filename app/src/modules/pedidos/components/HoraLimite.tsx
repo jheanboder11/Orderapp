@@ -18,13 +18,26 @@ export function Rueda({
 }) {
   return (
     <div className="flex w-[76px] flex-col items-center gap-1">
-      <button type="button" aria-label={`Subir ${nombre}`} onClick={subir} className={claseFlecha}>
+      <button
+        type="button"
+        aria-label={`Subir ${nombre}`}
+        onClick={subir}
+        className={claseFlecha}
+      >
         ▲
       </button>
-      <output aria-label={nombre} className="py-1 text-[28px] leading-none font-extrabold tabular-nums">
+      <output
+        aria-label={nombre}
+        className="py-1 text-[28px] leading-none font-extrabold tabular-nums"
+      >
         {valor}
       </output>
-      <button type="button" aria-label={`Bajar ${nombre}`} onClick={bajar} className={claseFlecha}>
+      <button
+        type="button"
+        aria-label={`Bajar ${nombre}`}
+        onClick={bajar}
+        className={claseFlecha}
+      >
         ▼
       </button>
     </div>
@@ -35,10 +48,17 @@ export function Rueda({
  * "¿Antes de qué hora?": Sin afán, o una hora con flechas para hora, minutos y a. m./p. m.
  * Guarda el valor como "17:30" (o vacío) en un campo escondido para el formulario.
  */
-export function HoraLimite({ valor, cambiar }: { valor: string; cambiar: (v: string) => void }) {
+export function HoraLimite({
+  valor,
+  cambiar,
+}: {
+  valor: string;
+  cambiar: (v: string) => void;
+}) {
   const conHora = valor !== "";
   const p: Partes = deHora24(valor || "17:00");
-  const poner = (campo: keyof Partes, paso: 1 | -1) => cambiar(aHora24(moverHora(p, campo, paso)));
+  const poner = (campo: keyof Partes, paso: 1 | -1) =>
+    cambiar(aHora24(moverHora(p, campo, paso)));
 
   const claseOpcion = (activa: boolean) =>
     `flex-1 cursor-pointer rounded-full px-2 py-2.5 text-center text-sm font-semibold ${
@@ -50,7 +70,12 @@ export function HoraLimite({ valor, cambiar }: { valor: string; cambiar: (v: str
       <legend className="text-sm text-suave">¿Antes de qué hora?</legend>
       <input type="hidden" name="entregarAntes" value={valor} />
       <div className="mt-1 flex gap-1.5 rounded-full bg-campo p-1">
-        <button type="button" aria-pressed={!conHora} onClick={() => cambiar("")} className={claseOpcion(!conHora)}>
+        <button
+          type="button"
+          aria-pressed={!conHora}
+          onClick={() => cambiar("")}
+          className={claseOpcion(!conHora)}
+        >
           😎 Sin afán
         </button>
         <button
@@ -65,7 +90,12 @@ export function HoraLimite({ valor, cambiar }: { valor: string; cambiar: (v: str
 
       {conHora ? (
         <div className="mt-2 flex items-center justify-center gap-2 rounded-2xl bg-campo p-3">
-          <Rueda nombre="hora" valor={String(p.hora)} subir={() => poner("hora", 1)} bajar={() => poner("hora", -1)} />
+          <Rueda
+            nombre="hora"
+            valor={String(p.hora)}
+            subir={() => poner("hora", 1)}
+            bajar={() => poner("hora", -1)}
+          />
           <span className="text-[28px] font-extrabold">:</span>
           <Rueda
             nombre="minutos"

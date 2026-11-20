@@ -82,7 +82,7 @@ export function TarjetaEntrega({ p }: { p: PedidoDelMensajero }) {
               name="motivo"
               value={motivo}
               onChange={(e) => setMotivo(e.target.value)}
-              className="mt-1 w-full rounded-boton border border-linea bg-tarjeta p-[13px] text-base text-tinta"
+              className="mt-1 w-full rounded-campo border border-linea bg-tarjeta p-[13px] text-base text-tinta"
             >
               <option value="">Elige una opción</option>
               {MOTIVOS_PROBLEMA.map((m) => (
@@ -99,7 +99,7 @@ export function TarjetaEntrega({ p }: { p: PedidoDelMensajero }) {
                 name="detalle"
                 rows={2}
                 maxLength={300}
-                className="mt-1 w-full rounded-boton border border-linea bg-tarjeta p-[13px] text-base text-tinta"
+                className="mt-1 w-full rounded-campo border border-linea bg-tarjeta p-[13px] text-base text-tinta"
               />
             </label>
           ) : null}

@@ -38,9 +38,15 @@ type Props = {
 };
 
 const claseArea =
-  "mt-1 w-full rounded-boton border border-linea bg-campo p-[13px] text-base text-tinta focus:border-naranja-sombra focus:outline-2 focus:outline-naranja-sombra";
+  "mt-1.5 w-full rounded-campo border border-dashed border-[#ffa5bd] bg-campo p-4 text-base font-medium text-tinta placeholder:text-suave/70 focus:border-solid focus:border-guayaba focus:shadow-[0_0_0_2px_var(--color-guayaba),0_0_0_7px_rgba(232,49,107,0.14)] focus:outline-none";
 
-export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Props) {
+export function FormPedido({
+  zonas,
+  mensajeros,
+  accion,
+  numero,
+  editando,
+}: Props) {
   const router = useRouter();
   const vacio = (): CamposPedido => ({
     cliente: "",
@@ -75,8 +81,9 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estado]);
 
-  const cambiar = (k: keyof CamposPedido) => (e: { target: { value: string } }) =>
-    setC((antes) => ({ ...antes, [k]: e.target.value }));
+  const cambiar =
+    (k: keyof CamposPedido) => (e: { target: { value: string } }) =>
+      setC((antes) => ({ ...antes, [k]: e.target.value }));
 
   function llenar() {
     const d = leerMensaje(pegado);
@@ -88,7 +95,9 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
       ...(d.direccion && { direccion: d.direccion }),
       ...(d.items && { items: d.items }),
       ...(d.formaPago && { formaPago: d.formaPago }),
-      ...(d.valorTotal && { valorTotal: pesos(Number(d.valorTotal)).replace("$ ", "") }),
+      ...(d.valorTotal && {
+        valorTotal: pesos(Number(d.valorTotal)).replace("$ ", ""),
+      }),
       ...(d.nota && { nota: d.nota }),
       ...(zona && { zonaId: String(zona.id) }),
     }));
@@ -107,7 +116,9 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
     return (
       <Tarjeta>
         <p className="font-bold">Todavía no hay mensajeros activos.</p>
-        <p className="text-sm text-suave">Pídele al Administrador que cree uno en 👥 Equipo.</p>
+        <p className="text-sm text-suave">
+          Pídele al Administrador que cree uno en 👥 Equipo.
+        </p>
       </Tarjeta>
     );
   }
@@ -115,56 +126,104 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
   return (
     <>
       {estado?.ok && !editando ? (
-        <Tarjeta className="border-exito" role="status">
+        <Tarjeta className="border-menta bg-menta-fondo" role="status">
           <p className="font-bold text-exito">{estado.mensaje}</p>
           <p className="text-sm text-suave">
             Pedido #{estado.numero}.{" "}
-            <Link href="/colaborador/pedidos" className="font-semibold text-tinta underline">
+            <Link
+              href="/colaborador/pedidos"
+              className="font-semibold text-tinta underline"
+            >
               Ver los pedidos
             </Link>
           </p>
         </Tarjeta>
       ) : null}
 
-      <Tarjeta>
-        <form
-          noValidate
-          onSubmit={enviarSinBorrar(enviar)}
-        >
-          <h1 className="mb-2 text-lg font-bold">
-            {editando ? `✏️ Editando el pedido #${editando.numero}` : `➕ Domicilio #${siguiente}`}
-          </h1>
-
-          {editando ? (
-            <p className="my-2 rounded-[10px] border-l-4 border-naranja bg-campo px-3 py-2 text-sm">
-              Cambia lo que haga falta y guarda. Solo se puede editar mientras el pedido está empacado.
-            </p>
-          ) : (
-            <>
-              <p className="my-2 rounded-[10px] border-l-4 border-naranja bg-campo px-3 py-2 text-sm">
-                <b>Atajo:</b> pega aquí lo que escribió el cliente en WhatsApp y la app llena los campos
-                por ti.
-              </p>
+      <form noValidate onSubmit={enviarSinBorrar(enviar)}>
+        {editando ? null : (
+          <>
+            {/* Tarjeta protagonista: pegar el chat de WhatsApp */}
+            <Tarjeta className="rounded-[28px] shadow-[0_24px_44px_-24px_rgba(232,49,107,0.45)]">
+              <div className="flex items-center gap-3">
+                <span
+                  aria-hidden="true"
+                  className="grid h-12 w-12 flex-none place-items-center rounded-[16px] bg-rosa text-guayaba"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
+                    <path d="M19 16v4M17 18h4" />
+                  </svg>
+                </span>
+                <div>
+                  <p className="text-[17px] leading-tight font-extrabold">
+                    Pega el chat de WhatsApp
+                  </p>
+                  <p className="text-[13px] font-medium text-suave">
+                    Yo lleno los campos por ti
+                  </p>
+                </div>
+              </div>
               <textarea
                 aria-label="Mensaje del cliente"
                 rows={4}
-                placeholder="Pega aquí el mensaje del cliente"
+                placeholder="Pega aquí lo que escribió el cliente"
                 value={pegado}
                 onChange={(e) => setPegado(e.target.value)}
-                className={claseArea}
+                className={`${claseArea} mt-4`}
                 maxLength={3000}
               />
-              <Boton type="button" className="mt-2 w-full" onClick={llenar} disabled={!pegado.trim()}>
+              <Boton
+                type="button"
+                className="mt-3 w-full"
+                onClick={llenar}
+                disabled={!pegado.trim()}
+              >
                 ✨ Llenar con este mensaje
               </Boton>
               {nota ? (
-                <p role="status" className="mt-2 rounded-[10px] border-l-4 border-naranja bg-campo px-3 py-2 text-sm">
+                <p
+                  role="status"
+                  className="mt-3 rounded-[16px] bg-rosa px-3.5 py-2.5 text-sm font-semibold text-frambuesa"
+                >
                   {nota}
                 </p>
               ) : null}
-              <p className="mt-3 text-sm text-suave">O llénalo a mano:</p>
-            </>
-          )}
+            </Tarjeta>
+            <p className="my-4 flex items-center gap-3 text-sm font-medium text-suave before:h-px before:flex-1 before:bg-linea after:h-px after:flex-1 after:bg-linea">
+              o llénalo a mano
+            </p>
+          </>
+        )}
+
+        <Tarjeta>
+          <h2 className="mb-1 flex items-center gap-2.5 text-[20px] font-extrabold tracking-[-0.02em]">
+            {editando ? (
+              `✏️ Editando el pedido #${editando.numero}`
+            ) : (
+              <>
+                Domicilio{" "}
+                <span className="rounded-[12px] bg-tinta px-2.5 py-0.5 text-[17px] text-white">
+                  #{siguiente}
+                </span>
+              </>
+            )}
+          </h2>
+
+          {editando ? (
+            <p className="my-2 rounded-[16px] bg-rosa px-3.5 py-2.5 text-sm font-medium text-frambuesa">
+              Cambia lo que haga falta y guarda. Solo se puede editar mientras
+              el pedido está empacado.
+            </p>
+          ) : null}
 
           <Campo
             etiqueta="¿Cómo se llama el cliente?"
@@ -185,7 +244,12 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
               onChange={cambiar("celular")}
               maxLength={20}
             />
-            <Selector etiqueta="¿A dónde va?" name="zonaId" value={c.zonaId} onChange={cambiar("zonaId")}>
+            <Selector
+              etiqueta="¿A dónde va?"
+              name="zonaId"
+              value={c.zonaId}
+              onChange={cambiar("zonaId")}
+            >
               {zonas.map((z) => (
                 <option key={z.id} value={z.id}>
                   {z.nombre}
@@ -210,7 +274,12 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
             maxLength={200}
           />
           <div className="grid grid-cols-2 gap-2.5">
-            <Selector etiqueta="¿Cómo paga?" name="formaPago" value={c.formaPago} onChange={cambiar("formaPago")}>
+            <Selector
+              etiqueta="¿Cómo paga?"
+              name="formaPago"
+              value={c.formaPago}
+              onChange={cambiar("formaPago")}
+            >
               {FORMAS_PAGO.map((f) => (
                 <option key={f} value={f}>
                   {NOMBRE_PAGO[f]}
@@ -228,11 +297,19 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
               maxLength={15}
             />
           </div>
-          <Selector etiqueta="¿Para cuándo es?" name="para" value={c.para} onChange={cambiar("para")}>
+          <Selector
+            etiqueta="¿Para cuándo es?"
+            name="para"
+            value={c.para}
+            onChange={cambiar("para")}
+          >
             <option value="HOY">Hoy</option>
             <option value="MANANA">Mañana</option>
           </Selector>
-          <HoraLimite valor={c.entregarAntes} cambiar={(v) => setC((antes) => ({ ...antes, entregarAntes: v }))} />
+          <HoraLimite
+            valor={c.entregarAntes}
+            cambiar={(v) => setC((antes) => ({ ...antes, entregarAntes: v }))}
+          />
           <Campo
             etiqueta="¿Algo especial? (referencia)"
             name="nota"
@@ -241,7 +318,12 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
             onChange={cambiar("nota")}
             maxLength={200}
           />
-          <Selector etiqueta="¿Quién lo lleva?" name="mensajeroId" value={c.mensajeroId} onChange={cambiar("mensajeroId")}>
+          <Selector
+            etiqueta="¿Quién lo lleva?"
+            name="mensajeroId"
+            value={c.mensajeroId}
+            onChange={cambiar("mensajeroId")}
+          >
             {mensajeros.map((m) => (
               <option key={m.id} value={m.id}>
                 {m.nombre}
@@ -251,31 +333,45 @@ export function FormPedido({ zonas, mensajeros, accion, numero, editando }: Prop
 
           {zona ? (
             <p className="mt-2 text-sm text-suave">
-              El domi cuesta <b className="text-tinta">{pesos(zona.tarifaDomi)}</b> (se calcula solo)
+              El domi cuesta{" "}
+              <b className="text-tinta">{pesos(zona.tarifaDomi)}</b> (se calcula
+              solo)
             </p>
           ) : null}
 
-          {estado && !estado.ok ? <Aviso tipo="error">{estado.error}</Aviso> : null}
+          {estado && !estado.ok ? (
+            <Aviso tipo="error">{estado.error}</Aviso>
+          ) : null}
 
           {editando ? (
             <>
-              <Boton type="submit" variante="principal" grande disabled={guardando}>
+              <Boton
+                type="submit"
+                variante="principal"
+                grande
+                disabled={guardando}
+              >
                 {guardando ? "Guardando…" : "💾 Guardar los cambios"}
               </Boton>
               <Link
                 href="/colaborador/pedidos"
-                className="mt-3 flex min-h-[54px] w-full items-center justify-center rounded-boton border border-linea bg-tarjeta text-[17px] font-semibold"
+                className="mt-3 flex min-h-[56px] w-full items-center justify-center rounded-boton border border-borde-rosa bg-tarjeta text-[17px] font-bold text-frambuesa"
               >
                 Volver sin cambiar
               </Link>
             </>
           ) : (
-            <Boton type="submit" variante="principal" grande disabled={guardando}>
+            <Boton
+              type="submit"
+              variante="principal"
+              grande
+              disabled={guardando}
+            >
               {guardando ? "Guardando…" : "📦 Listo, ya lo empaqué"}
             </Boton>
           )}
-        </form>
-      </Tarjeta>
+        </Tarjeta>
+      </form>
     </>
   );
 }

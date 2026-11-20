@@ -1,9 +1,21 @@
 "use client";
 import Link from "next/link";
 import { useActionState, useState } from "react";
-import { Aviso, Boton, Selector, Tarjeta } from "@/components/ui";
+import {
+  Aviso,
+  Boton,
+  claseBotonChico,
+  claseNota,
+  Selector,
+  Tarjeta,
+} from "@/components/ui";
 import { horaCorta, pesos } from "@/lib/formato";
-import { type EstadoAccion, cancelarPedido, marcarDevuelto, reasignarPedido } from "../actions";
+import {
+  type EstadoAccion,
+  cancelarPedido,
+  marcarDevuelto,
+  reasignarPedido,
+} from "../actions";
 import type { PedidoTarjeta } from "../queries";
 import {
   MOTIVOS_CANCELACION,
@@ -20,7 +32,7 @@ import { enviarSinBorrar } from "@/components/enviar";
 type Abierto = "nada" | "cancelar" | "reasignar";
 type Mensajero = { id: string; nombre: string };
 
-const claseNota = "mt-2 rounded-[10px] border-l-4 border-naranja bg-campo px-3 py-2 text-sm";
+// claseNota viene de ui.tsx
 
 export function TarjetaPedido({
   p,
@@ -36,16 +48,27 @@ export function TarjetaPedido({
   const [nuevoMensajero, setNuevoMensajero] = useState(p.mensajeroId);
   const [copiado, setCopiado] = useState(false);
 
-  const cerrarSiOk = (accion: (prev: EstadoAccion, f: FormData) => Promise<EstadoAccion>) =>
+  const cerrarSiOk =
+    (accion: (prev: EstadoAccion, f: FormData) => Promise<EstadoAccion>) =>
     async (prev: EstadoAccion, f: FormData) => {
       const r = await accion(prev, f);
       if (r?.ok) setAbierto("nada");
       return r;
     };
-  const [eCancelar, cancelar, cancelando] = useActionState(cerrarSiOk(cancelarPedido), null);
-  const [eReasignar, reasignar, reasignando] = useActionState(cerrarSiOk(reasignarPedido), null);
-  const [eDevuelto, devuelto, devolviendo] = useActionState(marcarDevuelto, null);
-  const resultado = [eCancelar, eReasignar, eDevuelto].find((x) => x !== null) ?? null;
+  const [eCancelar, cancelar, cancelando] = useActionState(
+    cerrarSiOk(cancelarPedido),
+    null,
+  );
+  const [eReasignar, reasignar, reasignando] = useActionState(
+    cerrarSiOk(reasignarPedido),
+    null,
+  );
+  const [eDevuelto, devuelto, devolviendo] = useActionState(
+    marcarDevuelto,
+    null,
+  );
+  const resultado =
+    [eCancelar, eReasignar, eDevuelto].find((x) => x !== null) ?? null;
 
   const etiqueta = etiquetaDia(p, hoy);
   const abiertoPedido = esAbierto(p.estado);
@@ -72,7 +95,9 @@ export function TarjetaPedido({
       <div className="text-sm text-suave">
         {p.zona} · {pesos(p.valorDomi)} de domi
         {etiqueta ? (
-          <span className={`font-bold ${etiqueta.tipo === "ok" ? "text-exito" : "text-problema"}`}>
+          <span
+            className={`font-bold ${etiqueta.tipo === "ok" ? "text-exito" : "text-problema"}`}
+          >
             {" "}
             {etiqueta.texto}
           </span>
@@ -81,7 +106,10 @@ export function TarjetaPedido({
       </div>
 
       {abierto === "reasignar" ? (
-        <form onSubmit={enviarSinBorrar(reasignar)} className="mt-2 rounded-2xl bg-campo p-3">
+        <form
+          onSubmit={enviarSinBorrar(reasignar)}
+          className="mt-2 rounded-2xl bg-campo p-3"
+        >
           <input type="hidden" name="id" value={p.id} />
           <Selector
             etiqueta="¿Quién lo lleva ahora?"
@@ -105,7 +133,8 @@ export function TarjetaPedido({
               className="flex-1"
               disabled={reasignando || nuevoMensajero === p.mensajeroId}
             >
-              Sí, que lo lleve {mensajeros.find((m) => m.id === nuevoMensajero)?.nombre ?? ""}
+              Sí, que lo lleve{" "}
+              {mensajeros.find((m) => m.id === nuevoMensajero)?.nombre ?? ""}
             </Boton>
           </div>
         </form>
@@ -135,19 +164,31 @@ export function TarjetaPedido({
       {p.motivoProblema ? (
         <div className={claseNota}>
           <b className="text-problema">Problema:</b> {p.motivoProblema}.
-          {p.detalleProblema && p.detalleProblema !== p.motivoProblema ? ` ${p.detalleProblema}` : ""}
+          {p.detalleProblema && p.detalleProblema !== p.motivoProblema
+            ? ` ${p.detalleProblema}`
+            : ""}
         </div>
       ) : null}
 
       {p.fotoSalidaUrl || p.fotoEntregaUrl ? (
         <div className="mt-2 flex flex-wrap gap-2.5 text-sm">
           {p.fotoSalidaUrl ? (
-            <a href={linkFotoPedido(p.id, "salida")} target="_blank" rel="noopener noreferrer" className="font-semibold">
+            <a
+              href={linkFotoPedido(p.id, "salida")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold"
+            >
               📸 Foto al salir
             </a>
           ) : null}
           {p.fotoEntregaUrl ? (
-            <a href={linkFotoPedido(p.id, "entrega")} target="_blank" rel="noopener noreferrer" className="font-semibold">
+            <a
+              href={linkFotoPedido(p.id, "entrega")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold"
+            >
               📸 Foto al entregar
             </a>
           ) : null}
@@ -163,7 +204,7 @@ export function TarjetaPedido({
             name="motivo"
             value={motivo}
             onChange={(e) => setMotivo(e.target.value)}
-            className="mt-1 w-full rounded-boton border border-linea bg-tarjeta p-[13px] text-base"
+            className="mt-1 w-full rounded-campo border border-linea bg-tarjeta p-[13px] text-base"
           >
             <option value="">Elige una opción</option>
             {MOTIVOS_CANCELACION.map((m) => (
@@ -179,14 +220,19 @@ export function TarjetaPedido({
               rows={2}
               placeholder="Cuéntanos qué pasó"
               maxLength={300}
-              className="mt-1 w-full rounded-boton border border-linea bg-tarjeta p-[13px] text-base"
+              className="mt-1 w-full rounded-campo border border-linea bg-tarjeta p-[13px] text-base"
             />
           ) : null}
           <div className="mt-2 flex gap-2">
             <Boton type="button" onClick={() => setAbierto("nada")}>
               Volver
             </Boton>
-            <Boton type="submit" variante="peligro" className="flex-1" disabled={cancelando}>
+            <Boton
+              type="submit"
+              variante="peligro"
+              className="flex-1"
+              disabled={cancelando}
+            >
               🚫 Sí, cancelar el pedido
             </Boton>
           </div>
@@ -196,21 +242,26 @@ export function TarjetaPedido({
       {p.estado === "PROBLEMA" ? (
         <form onSubmit={enviarSinBorrar(devuelto)}>
           <input type="hidden" name="id" value={p.id} />
-          <Boton type="submit" variante="principal" grande disabled={devolviendo}>
+          <Boton
+            type="submit"
+            variante="principal"
+            className="mt-3 w-full"
+            disabled={devolviendo}
+          >
             ↩️ Ya recibí el paquete de vuelta
           </Boton>
         </form>
       ) : null}
 
       {p.estado !== "CANCELADO" && abierto !== "cancelar" ? (
-        <div className="mt-2.5 flex gap-2">
-          <Boton type="button" pequeno className="flex-1" onClick={copiar}>
+        <div className="mt-3 grid auto-cols-fr grid-flow-col gap-2">
+          <Boton type="button" pequeno onClick={copiar}>
             {copiado ? "✅ Copiado" : "📋 Copiar"}
           </Boton>
           {puedeEditar(p.estado) ? (
             <Link
               href={`/colaborador/editar/${p.id}`}
-              className="inline-flex min-h-[40px] flex-1 items-center justify-center rounded-boton border border-linea bg-tarjeta px-3 text-[13px] font-semibold"
+              className={`${claseBotonChico} flex-1`}
             >
               ✏️ Editar
             </Link>
@@ -219,7 +270,6 @@ export function TarjetaPedido({
             <Boton
               type="button"
               pequeno
-              className="flex-1"
               onClick={() => {
                 setMotivo("");
                 setAbierto("cancelar");
@@ -232,7 +282,9 @@ export function TarjetaPedido({
       ) : null}
 
       {resultado ? (
-        <Aviso tipo={resultado.ok ? "ok" : "error"}>{resultado.ok ? resultado.mensaje : resultado.error}</Aviso>
+        <Aviso tipo={resultado.ok ? "ok" : "error"}>
+          {resultado.ok ? resultado.mensaje : resultado.error}
+        </Aviso>
       ) : null}
     </Tarjeta>
   );

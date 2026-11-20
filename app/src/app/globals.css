@@ -1,23 +1,41 @@
 @import "tailwindcss";
 
-/* Orderapp: tinta + naranja ruta. Solo modo claro por ahora. */
+/*
+ * Orderapp: identidad "Guayaba y Menta" (ver PROMPT-DISENO-ORDERAPP.md).
+ * Los nombres viejos (naranja, tinta...) se conservan para no tocar las pantallas:
+ * ahora apuntan a los colores nuevos. Solo modo claro por ahora.
+ */
 @theme {
-  --color-tinta: #1c1a36;
-  --color-naranja: #ff7a45;
-  --color-naranja-sombra: #e2581f;
-  --color-fondo: #f5f5f9;
+  /* Marca */
+  --color-guayaba: #e8316b;
+  --color-frambuesa: #b3174d;
+  --color-rosa: #ffe3eb;
+  --color-algodon: #fff5f7;
+  --color-ciruela: #2b0f24;
+  --color-menta: #8fe8cb;
+  --color-menta-fondo: #d9f7ec;
+  --color-ambar-fondo: #ffebc2;
+  --color-borde-rosa: #ffccd9;
+
+  /* Nombres usados por las pantallas */
+  --color-tinta: #2b0f24;
+  --color-naranja: #e8316b;
+  --color-naranja-sombra: #b3174d;
+  --color-fondo: #fff5f7;
   --color-tarjeta: #ffffff;
-  --color-campo: #f0f0f6;
-  --color-linea: #e5e4ee;
-  --color-suave: #6b6a80;
-  --color-exito: #16996a;
-  --color-ambar: #c76a12;
-  --color-problema: #d43c4b;
+  --color-campo: #fff7f9;
+  --color-linea: #f3e0e6;
+  --color-suave: #7a5c6b;
+  --color-exito: #0b6b4f;
+  --color-ambar: #7a4b00;
+  --color-problema: #c2253f;
 
   --font-sans: var(--font-jakarta), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --radius-tarjeta: 20px;
-  --radius-boton: 14px;
-  --shadow-suave: 0 2px 12px rgba(28, 26, 54, 0.06);
+  --radius-tarjeta: 24px;
+  --radius-boton: 999px;
+  --radius-campo: 18px;
+  --shadow-suave: 0 14px 30px -22px rgba(43, 15, 36, 0.4);
+  --shadow-guayaba: 0 14px 24px -12px rgba(232, 49, 107, 0.75);
 }
 
 :root {
@@ -25,8 +43,37 @@
 }
 
 body {
-  background: var(--color-fondo);
+  background-color: var(--color-fondo);
   color: var(--color-tinta);
   font-size: 16px;
   line-height: 1.5;
+  min-height: 100dvh;
+}
+
+/* Fondo de marca: brillo guayaba + rejilla de puntos + ruta punteada, solo arriba y detrás. */
+body::before,
+body::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 520px;
+  pointer-events: none;
+  z-index: -1;
+}
+body::before {
+  background:
+    radial-gradient(circle at 88% 6%, rgba(232, 49, 107, 0.2), transparent 55%),
+    radial-gradient(rgba(232, 49, 107, 0.28) 1.2px, transparent 1.4px) 0 0 / 22px 22px;
+  mask-image: linear-gradient(#000 0%, transparent 100%);
+}
+body::after {
+  background: url("/ruta.svg") no-repeat right -40px top 60px / 360px auto;
+  opacity: 0.55;
+}
+
+/* Resaltador de una palabra del título: guayaba con subrayado menta. */
+.resaltar {
+  color: var(--color-guayaba);
+  background: linear-gradient(transparent 62%, var(--color-menta) 62%);
+  padding: 0 2px;
 }

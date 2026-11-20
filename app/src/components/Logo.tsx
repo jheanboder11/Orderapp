@@ -1,27 +1,27 @@
-/** Logo de Orderapp: pin naranja con chulo blanco + "orderapp". */
+/** Logo de Orderapp: cuadro guayaba con pin blanco y chulo guayaba + "orderapp". */
 export function Logo() {
   return (
     <div className="flex items-center gap-2.5">
-      <svg viewBox="0 0 40 40" aria-hidden="true" className="h-10 w-10 flex-none">
-        <rect width="40" height="40" rx="12" fill="#1c1a36" />
+      <svg viewBox="0 0 40 40" aria-hidden="true" className="h-11 w-11 flex-none">
+        <rect width="40" height="40" rx="12.4" fill="#e8316b" />
         <path
-          d="M20 9.5c-4.4 0-8 3.4-8 7.7 0 5.6 8 13.3 8 13.3s8-7.7 8-13.3c0-4.3-3.6-7.7-8-7.7z"
-          fill="#ff7a45"
+          d="M20 8.5c-4.7 0-8.5 3.6-8.5 8.2 0 6 8.5 14.3 8.5 14.3s8.5-8.3 8.5-14.3c0-4.6-3.8-8.2-8.5-8.2z"
+          fill="#fff"
         />
         <path
-          d="M16.6 17.4l2.4 2.4 4.6-4.7"
+          d="M16.4 16.9l2.6 2.6 4.8-4.9"
           fill="none"
-          stroke="#fff"
-          strokeWidth="2.4"
+          stroke="#e8316b"
+          strokeWidth="2.6"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
       </svg>
       <div>
-        <b className="block text-2xl leading-none font-extrabold tracking-[-0.035em] text-tinta">
+        <b className="block text-[24px] leading-none font-extrabold tracking-[-0.04em] text-tinta">
           orderapp
         </b>
-        <span className="mt-[3px] block text-[11px] font-semibold tracking-[0.04em] text-suave uppercase">
+        <span className="mt-1 block text-[10px] font-bold tracking-[0.14em] text-suave uppercase">
           Domicilios en orden
         </span>
       </div>

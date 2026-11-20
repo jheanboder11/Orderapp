@@ -117,7 +117,7 @@ export default async function Pedidos({ searchParams }: { searchParams: Promise<
             <p className="text-sm text-suave">Cuando crees uno, aparece aquí.</p>
             <Link
               href="/colaborador/nuevo"
-              className="mt-3 flex min-h-[54px] w-full items-center justify-center rounded-boton border border-naranja bg-naranja text-[17px] font-bold text-white shadow-[0_3px_0_var(--color-naranja-sombra)]"
+              className="mt-4 flex min-h-[46px] w-full items-center justify-center rounded-boton bg-guayaba text-[15px] font-bold text-white shadow-guayaba"
             >
               ➕ Crear un pedido
             </Link>

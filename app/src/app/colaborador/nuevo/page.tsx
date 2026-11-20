@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Resaltar, TituloModulo } from "@/components/ui";
 import { fechaBogota } from "@/lib/formato";
 import { exigirRol } from "@/modules/auth/sesion";
 import { crearPedido } from "@/modules/pedidos/actions";
@@ -15,8 +16,11 @@ export default async function Nuevo() {
     siguienteNumero(fechaBogota()),
   ]);
   return (
-    <div className="mt-4">
+    <>
+      <TituloModulo>
+        ¿Qué <Resaltar>domicilio</Resaltar> vamos a enviar hoy?
+      </TituloModulo>
       <FormPedido zonas={zonas} mensajeros={mensajeros} numero={numero} accion={crearPedido} />
-    </div>
+    </>
   );
 }
