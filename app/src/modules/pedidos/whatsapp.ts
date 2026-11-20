@@ -64,6 +64,101 @@ const MUNICIPIOS_ALEDANOS = [
   "rionegro",
 ];
 
+const CELULAR = /(?:\+?57[\s-]*)?(3\d{2})[\s.-]*(\d{3})[\s.-]*(\d{4})/;
+const ES_DIRECCION =
+  /\b(calle|cll|cl|cra|cr|carrera|kr|av|avenida|diagonal|diag|transversal|circular|tv|dg)\b|#/i;
+const ES_PRODUCTO = /chaqueta|cortavientos|doble faz|forro|talla|guantes|impermeable/i;
+const ES_PAGO = /efectivo|transferencia|nequi|daviplata|bancolombia|contra ?entrega|pagad|consign|pago|paga\b/i;
+/** Palabras con las que empieza un saludo o una frase, nunca un nombre. */
+const NO_ES_NOMBRE = new Set(
+  "hola buenas buenos buen gracias ok okay listo si no por para quiero necesito me el la los las un una porfa favor dale bueno son es esta seria total valor envio domicilio entregar entrega llamar antes despues hoy manana".split(
+    " ",
+  ),
+);
+
+/** "jean maunfre" → "Jean Maunfre" */
+const conMayuscula = (s: string) =>
+  s.toLowerCase().replace(/(^|\s)(\p{L})/gu, (_, a: string, b: string) => a + b.toUpperCase());
+
+function pareceNombre(t: string): boolean {
+  if (!/^\p{L}[\p{L}.' ]{1,48}$/u.test(t)) return false;
+  const palabras = sinTildes(t).split(/\s+/);
+  if (palabras.length > 5) return false;
+  if (NO_ES_NOMBRE.has(palabras[0] ?? "")) return false;
+  return !ES_PRODUCTO.test(t) && !ES_PAGO.test(t);
+}
+
+const esMunicipio = (t: string) => {
+  const x = sinTildes(t);
+  return x === "medellin" || MUNICIPIOS_ALEDANOS.includes(x);
+};
+
+/**
+ * Lee los datos que vienen sin etiqueta ("Jean maunfre, 3103205117, calle 88c #10a 12, alfonso lopez").
+ * Corta el texto por renglones y comas y adivina qué es cada pedazo.
+ */
+function leerSueltos(resto: string[]) {
+  const limpiar = (x: string) => x.replace(/^[\s.:\-–]+|[\s.:\-–]+$/g, "").trim();
+  const pedazos = resto.flatMap((l) => l.split(/[,;]/)).map(limpiar).filter(Boolean);
+
+  let cliente = "";
+  let direccion: string[] = [];
+  const items: string[] = [];
+  let valor = 0;
+  let ultimo: "direccion" | "items" | "otro" = "otro";
+
+  for (const pedazo of pedazos) {
+    let p = pedazo;
+    if (!direccion.length && ES_DIRECCION.test(p)) {
+      direccion = [p];
+      ultimo = "direccion";
+      continue;
+    }
+    if (CELULAR.test(p)) {
+      // "Jean 3103205117" → queda "Jean"
+      p = limpiar(p.replace(CELULAR, ""));
+      ultimo = "otro";
+      if (!p) continue;
+    }
+    if (ES_PRODUCTO.test(p)) {
+      items.push(p);
+      ultimo = "items";
+      continue;
+    }
+    if (/^\$?\s*[\d.,]+\s*(mil)?$/i.test(p) && numeroDe(p) >= 1000) {
+      valor ||= numeroDe(p);
+      ultimo = "otro";
+      continue;
+    }
+    if (esMunicipio(p)) {
+      if (direccion.length) direccion.push(p);
+      continue;
+    }
+    if (pareceNombre(p)) {
+      // Lo que va justo después de la dirección es el barrio; después del producto, su detalle.
+      if (ultimo === "direccion") direccion.push(p);
+      else if (ultimo === "items") items.push(p);
+      else if (!cliente) cliente = conMayuscula(p);
+      continue;
+    }
+    ultimo = "otro";
+  }
+
+  // "calle 10 #20-30, laureles, juan perez": si no hubo nombre, el último pedazo de la dirección lo es.
+  const ultimoDir = direccion[direccion.length - 1] ?? "";
+  if (!cliente && direccion.length > 2 && !esMunicipio(ultimoDir)) {
+    cliente = conMayuscula(ultimoDir);
+    direccion = direccion.slice(0, -1);
+  }
+
+  return {
+    cliente: cliente || undefined,
+    direccion: direccion.length ? direccion.join(", ") : undefined,
+    items: items.length ? items.join(", ") : undefined,
+    valor,
+  };
+}
+
 export function leerMensaje(mensaje: string): DatosLeidos {
   const lineas = String(mensaje || "")
     .replace(/\r/g, "")
@@ -112,22 +207,19 @@ export function leerMensaje(mensaje: string): DatosLeidos {
   const cuerpoSinTildes = sinTildes(cuerpo);
   const f: DatosLeidos = {};
 
-  if (g.cliente[0]) f.cliente = g.cliente[0];
+  const sueltos = leerSueltos(resto);
+
+  const cliente = g.cliente[0] || sueltos.cliente;
+  if (cliente) f.cliente = cliente;
 
   let tel = g.celular[0] ? g.celular[0].replace(/\D/g, "").replace(/^57(?=3\d{9}$)/, "") : "";
   if (!/^3\d{9}$/.test(tel)) {
-    const m = /(?:\+?57[\s-]*)?(3\d{2})[\s.-]*(\d{3})[\s.-]*(\d{4})/.exec(cuerpo);
+    const m = CELULAR.exec(cuerpo);
     tel = m ? `${m[1]}${m[2]}${m[3]}` : tel.length >= 7 ? tel : "";
   }
   if (tel) f.celular = tel;
 
-  let dir = g.direccion[0] ?? "";
-  if (!dir) {
-    const l = resto.find((x) =>
-      /\b(calle|cll|cl|cra|cr|carrera|kr|av|avenida|diagonal|diag|transversal|circular)\b|#/i.test(x),
-    );
-    if (l) dir = l;
-  }
+  let dir = g.direccion[0] ?? sueltos.direccion ?? "";
   if (dir) {
     if (g.barrio.length) dir += `, ${g.barrio.join(", ")}`;
     const ciudad = g.ciudad[0];
@@ -135,11 +227,7 @@ export function leerMensaje(mensaje: string): DatosLeidos {
     f.direccion = dir;
   }
 
-  let items = g.items.join(", ");
-  if (!items) {
-    const l = resto.find((x) => /chaqueta|cortavientos|doble faz|forro|talla/i.test(x));
-    if (l) items = l;
-  }
+  const items = g.items.join(", ") || sueltos.items;
   if (items) f.items = items;
 
   if (MUNICIPIOS_ALEDANOS.some((x) => cuerpoSinTildes.includes(x))) f.zona = "Aledaño";
@@ -155,6 +243,7 @@ export function leerMensaje(mensaje: string): DatosLeidos {
     const montos = [...cuerpo.matchAll(/\$\s*([\d.,]+(?:\s*mil)?)/gi)].map((x) => numeroDe(x[1] ?? ""));
     if (montos.length) valor = Math.max(...montos);
   }
+  if (!valor && sueltos.valor) valor = sueltos.valor;
   if (valor) f.valorTotal = String(valor);
 
   if (g.nota.length) f.nota = g.nota.join(", ");

@@ -41,10 +41,53 @@ describe("leer el mensaje de WhatsApp", () => {
     expect(d.celular).toBe("3104567890");
     expect(d.direccion).toBe("Cra 70 #45-20 Laureles Medellín");
     expect(d.zona).toBe("Medellín");
-    expect(d.items).toBe("Hola, quiero la chaqueta doble faz M");
+    expect(d.items).toBe("quiero la chaqueta doble faz M");
     expect(d.formaPago).toBe("TRANSFERENCIA");
     expect(d.valorTotal).toBe("192000");
     expect(faltantes(d)).toEqual(["el nombre"]);
+  });
+
+  it("lee los datos sueltos en un solo renglón, sin etiquetas", () => {
+    const d = leerMensaje("Jean maunfre , 3103205117 , calle 88c #10a 12, alfonso lopez.");
+    expect(d.cliente).toBe("Jean Maunfre");
+    expect(d.celular).toBe("3103205117");
+    expect(d.direccion).toBe("calle 88c #10a 12, alfonso lopez");
+  });
+
+  it("lee los datos sueltos uno por renglón", () => {
+    const d = leerMensaje(
+      [
+        "Buenas tardes",
+        "María José Gómez",
+        "310 320 5117",
+        "Cra 45 #50-20",
+        "Prado centro",
+        "chaqueta reflectiva talla L",
+        "150.000",
+        "efectivo",
+      ].join("\n"),
+    );
+    expect(d).toEqual({
+      cliente: "María José Gómez",
+      celular: "3103205117",
+      direccion: "Cra 45 #50-20, Prado centro",
+      items: "chaqueta reflectiva talla L",
+      formaPago: "EFECTIVO",
+      valorTotal: "150000",
+    });
+  });
+
+  it("separa el nombre pegado al celular", () => {
+    const d = leerMensaje("Jean 3103205117\ncalle 10 #20-30, Bello");
+    expect(d.cliente).toBe("Jean");
+    expect(d.direccion).toBe("calle 10 #20-30, Bello");
+    expect(d.zona).toBe("Aledaño");
+  });
+
+  it("encuentra el nombre al final si va después del barrio", () => {
+    const d = leerMensaje("calle 10 #20-30, laureles, juan perez, 3103205117");
+    expect(d.cliente).toBe("Juan Perez");
+    expect(d.direccion).toBe("calle 10 #20-30, laureles");
   });
 
   it("dice qué no encontró", () => {

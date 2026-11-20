@@ -42,6 +42,7 @@ Una app web para que un negocio pequeño maneje sus domicilios sin perder pedido
 - Quitar los accesos de prueba antes de usarla de verdad.
 
 ## Historial de cambios
+- 2026-11-20: Pegar el mensaje de WhatsApp ahora entiende los datos sin etiqueta ("Jean maunfre, 3103205117, calle 88c #10a 12, alfonso lopez"): saca nombre, celular, dirección con barrio, producto, valor y municipio, en un renglón o en varios. Las etiquetas ("Nombre:") siguen funcionando.
 - 2026-11-18: Fase 4 lista (versión demo): cierre del Mensajero con cálculo, bloqueos, foto de la consignación y cierres del día. Sin correo todavía. En 🏍️ Entregas, "Hacer mi cierre" solo sale si hay algo por cerrar.
 - 2026-11-18: Los usuarios tienen celular (opcional). Si el mensajero tiene celular, el botón "💬 WhatsApp a (nombre)" abre directo su chat con el mensaje listo. Por ahora solo Teo tiene celular. Todavía no se puede cambiar desde 👥 Equipo.
 - 2026-11-18: Colaborador: al elegir un mensajero en Pedidos sale la pestaña "💬 Enviar mensaje a (nombre)": mensaje con su nombre, cuántos domis tiene por recoger y la hora a la que debe venir (con flechas ▲▼). Botones 📋 Copiar y 💬 Abrir WhatsApp.
